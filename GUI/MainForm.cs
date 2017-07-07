@@ -10,7 +10,7 @@ namespace KronoxScraperBotGUI
         public MainForm()
         {
             date = DateTime.Now;
-            //date = date.AddDays(1);
+            date = date.AddDays(2);
             InitializeComponent();
         }
 
@@ -47,101 +47,33 @@ namespace KronoxScraperBotGUI
 
             if (listBoxBuilding.SelectedItem.Equals("Niagara"))
             {
-                listBoxTime.Items.Add("08:15-10:00");
-                listBoxTime.Text = "08:15-10:00";
-
-                listBoxTime.Items.Add("10:15-13:00");
-                listBoxTime.Text = "10:15-13:00";
-
-                if (day != DayOfWeek.Saturday && day != DayOfWeek.Sunday)
+                if (day == DayOfWeek.Saturday && day == DayOfWeek.Sunday)
                 {
-                    listBoxTime.Items.Add("13:15-15:00");
-                    listBoxTime.Text = "13:15-15:00";
+                    listBoxTime.Items.AddRange(Timespans.NiagaraWeekend);
+                    listBoxTime.Text = "";
                 }
-
-                listBoxTime.Items.Add("15:15-17:00");
-                listBoxTime.Text = "15:15-17:00";
-
-                listBoxTime.Items.Add("17:15-20:00");
-                listBoxTime.Text = "17:15-20:00";
-
-                listBoxBuilding.SelectedItem = "10:15-13:00";
+                else
+                {
+                    listBoxTime.Items.AddRange(Timespans.NiagaraWeekDays);
+                }
             }
             else if (listBoxBuilding.SelectedItem.Equals("Orkanen"))
             {
-                listBoxTime.Items.Add("08:15-10:00");
-                listBoxTime.Text = "08:15-10:00";
-
-                listBoxTime.Items.Add("10:15-13:00");
-                listBoxTime.Text = "10:15-13:00";
-
-                listBoxTime.Items.Add("13:15-15:00");
-                listBoxTime.Text = "13:15-15:00";
-
-                listBoxTime.Items.Add("15:15-17:00");
-                listBoxTime.Text = "15:15-17:00";
-
-                listBoxTime.Items.Add("17:15-20:00");
-                listBoxTime.Text = "17:15-20:00";
-
-                listBoxBuilding.SelectedItem = "10:15-13:00";
+                listBoxTime.Items.AddRange(Timespans.OrkanenDays);
             }
             else if (listBoxBuilding.SelectedItem.Equals("Orkanenbiblioteket"))
             {
                 if (day == DayOfWeek.Friday)
                 {
-                    listBoxTime.Items.Add("08:00-10:00");
-                    listBoxTime.Text = "08:00-10:00";
-
-                    listBoxTime.Items.Add("10:00-12:00");
-                    listBoxTime.Text = "10:00-12:00";
-
-                    listBoxTime.Items.Add("12:00-14:00");
-                    listBoxTime.Text = "12:00-14:00";
-
-                    listBoxTime.Items.Add("14:00-16:00");
-                    listBoxTime.Text = "14:00-16:00";
-
-                    listBoxTime.Items.Add("16:00-17:00");
-                    listBoxTime.Text = "16:00-17:00";
-                    
-
-                    listBoxBuilding.SelectedItem = "10:00 - 12:00";
+                    listBoxTime.Items.AddRange(Timespans.OrkanenBibliotekFriday);
                 }
                 else if (day == DayOfWeek.Saturday)
                 {
-                    listBoxTime.Items.Add("11:00-12:00");
-                    listBoxTime.Text = "11:00-12:00";
-
-                    listBoxTime.Items.Add("12:00-14:00");
-                    listBoxTime.Text = "12:00-14:00";
-
-                    listBoxTime.Items.Add("14:00-16:00");
-                    listBoxTime.Text = "14:00-16:00";
-
-                    listBoxBuilding.SelectedItem = "11:00-12:00";
+                    listBoxTime.Items.AddRange(Timespans.OrkanenBibliotekSaturday);
                 }
                 else if (day != DayOfWeek.Sunday)
                 {
-                    listBoxTime.Items.Add("08:00-10:00");
-                    listBoxTime.Text = "08:00-10:00";
-
-                    listBoxTime.Items.Add("10:00-12:00");
-                    listBoxTime.Text = "10:00-12:00";
-
-                    listBoxTime.Items.Add("12:00-14:00");
-                    listBoxTime.Text = "12:00-14:00";
-
-                    listBoxTime.Items.Add("14:00-16:00");
-                    listBoxTime.Text = "14:00-16:00";
-
-                    listBoxTime.Items.Add("16:00-18:00");
-                    listBoxTime.Text = "16:00-18:00";
-
-                    listBoxTime.Items.Add("18:00-20:00");
-                    listBoxTime.Text = "18:00-20:00";
-
-                    listBoxBuilding.SelectedItem = "10:00 - 12:00";
+                    listBoxTime.Items.AddRange(Timespans.OrkanenBibliotekWeekDays);
                 }
             }
         }
@@ -169,8 +101,6 @@ namespace KronoxScraperBotGUI
             shed.SetTask();
             MessageBox.Show("Task is scheduled!", "Message");
         }
-
-
 
         /// <summary>
         /// Saves settings to file.
@@ -205,21 +135,38 @@ namespace KronoxScraperBotGUI
         private void listBoxBuilding_SelectedIndexChanged(object sender, EventArgs e)
         {
             SetTimeDropDown();
+            ControlTaskButton();
         }
+
+        private void listBoxBuilding_TextChanged(object sender, EventArgs e)
+        {
+            SetTimeDropDown();
+        }
+
 
         private void textBoxUsername_TextChanged(object sender, EventArgs e)
         {
-            buttonSetTask.Enabled = !string.IsNullOrEmpty(textBoxUsername.Text) && !string.IsNullOrEmpty(textBoxPassword.Text);
+            ControlTaskButton();
         }
 
         private void textBoxPassword_TextChanged(object sender, EventArgs e)
         {
-            buttonSetTask.Enabled = !string.IsNullOrEmpty(textBoxUsername.Text) && !string.IsNullOrEmpty(textBoxPassword.Text);
+            ControlTaskButton();
         }
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             System.Diagnostics.Process.Start("https://github.com/Baxtex/KronoxBooker");
+        }
+
+        private void listBoxTime_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ControlTaskButton();
+        }
+
+        private void ControlTaskButton()
+        {
+            buttonSetTask.Enabled = !string.IsNullOrEmpty(textBoxUsername.Text) && !string.IsNullOrEmpty(textBoxPassword.Text) && listBoxTime.Items.Count>0 && !string.IsNullOrEmpty(listBoxTime.Text);
         }
     }
 }

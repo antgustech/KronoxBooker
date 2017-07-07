@@ -132,9 +132,10 @@ namespace Bot
                 {
                     return true;
                 }
-                else if (message.Contains("bokningen gick inte att spara pga kollision") || message.Contains("en tid som redan har intr"))
+                else if (message.Contains("bokningen gick inte att spara pga kollision") || message.Contains("en tid som redan har intr") || message.Contains("du har redan skapat max antal bokningar"))
                 {
                     _bookingTries = 5;
+                    return false;
                 }
             }
             return false;
@@ -159,136 +160,44 @@ namespace Bot
         /// <returns>The interval for that timespan.</returns>
         private int ParseTimeSpan(string timeSpan)
         {
-            var hour = timeSpan.Substring(0, 2);
-            var time = -1;
+            var index = 0;
+            string[] arr = new string[0];
 
             if (_building == Building.Niagara)
             {
                 if (_dayOfWeek == DayOfWeek.Saturday && _dayOfWeek == DayOfWeek.Sunday)
                 {
-                    switch (hour)
-                    {
-                        case "08":
-                            time = 0;
-                            break;
-                        case "10":
-                            time = 1;
-                            break;
-                        case "15":
-                            time = 2;
-                            break;
-                        case "17":
-                            time = 3;
-                            break;
-                    }
+                    arr = Timespans.NiagaraWeekend;
                 }
                 else
                 {
-                    switch (hour)
-                    {
-                        case "08":
-                            time = 0;
-                            break;
-                        case "10":
-                            time = 1;
-                            break;
-                        case "13":
-                            time = 2;
-                            break;
-                        case "15":
-                            time = 3;
-                            break;
-                        case "17":
-                            time = 4;
-                            break;
-                    }
+                    arr = Timespans.NiagaraWeekDays;
                 }
             }
             else if (_building == Building.Orkanen)
             {
-                switch (hour)
-                {
-                    case "08":
-                        time = 0;
-                        break;
-                    case "10":
-                        time = 1;
-                        break;
-                    case "13":
-                        time = 2;
-                        break;
-                    case "15":
-                        time = 3;
-                        break;
-                    case "17":
-                        time = 4;
-                        break;
-                }
+                arr = Timespans.OrkanenDays;
             }
             else if (_building == Building.OrkanenBiblioteket)
             {
+
                 if (_dayOfWeek == DayOfWeek.Friday)
                 {
-                    switch (hour)
-                    {
-                        case "08":
-                            time = 0;
-                            break;
-                        case "10":
-                            time = 1;
-                            break;
-                        case "12":
-                            time = 2;
-                            break;
-                        case "14":
-                            time = 3;
-                            break;
-                        case "16":
-                            time = 4;
-                            break;
-                    }
+                    index = 3;
+                    arr = Timespans.OrkanenBibliotekFriday;
                 }
                 else if (_dayOfWeek == DayOfWeek.Saturday)
                 {
-                    switch (hour)
-                    {
-                        case "11":
-                            time = 0;
-                            break;
-                        case "12":
-                            time = 1;
-                            break;
-                        case "14":
-                            time = 2;
-                            break;
-                    }
+                    index = 2;
+                    arr = Timespans.OrkanenBibliotekSaturday;
                 }
                 else if (_dayOfWeek != DayOfWeek.Sunday)
                 {
-                    switch (hour)
-                    {
-                        case "08":
-                            time = 0;
-                            break;
-                        case "10":
-                            time = 1;
-                            break;
-                        case "12":
-                            time = 2;
-                            break;
-                        case "14":
-                            time = 3;
-                            break;
-                        case "16":
-                            time = 4;
-                            break;
-                        case "18":
-                            time = 5;
-                            break;
-                    }
+                    arr = Timespans.OrkanenBibliotekWeekDays;
                 }
             }
-            return time;
+            index += Array.IndexOf(arr, timeSpan);
+            return index;
         }
     }
 }

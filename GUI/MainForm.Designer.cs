@@ -135,6 +135,7 @@
             this.listBoxTime.Size = new System.Drawing.Size(160, 24);
             this.listBoxTime.TabIndex = 8;
             this.toolTip1.SetToolTip(this.listBoxTime, "Choose the time for when you want to book your room");
+            this.listBoxTime.SelectedIndexChanged += new System.EventHandler(this.listBoxTime_SelectedIndexChanged);
             // 
             // label4
             // 
