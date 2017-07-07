@@ -10,7 +10,7 @@ namespace KronoxScraperBotGUI
         public MainForm()
         {
             date = DateTime.Now;
-            date = date.AddDays(2);
+            date = date.AddDays(1);
             InitializeComponent();
         }
 
