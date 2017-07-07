@@ -180,7 +180,6 @@ namespace Bot
             }
             else if (_building == Building.OrkanenBiblioteket)
             {
-
                 if (_dayOfWeek == DayOfWeek.Friday)
                 {
                     index = 3;

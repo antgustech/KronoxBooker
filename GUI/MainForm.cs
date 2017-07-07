@@ -166,7 +166,7 @@ namespace KronoxScraperBotGUI
 
         private void ControlTaskButton()
         {
-            buttonSetTask.Enabled = !string.IsNullOrEmpty(textBoxUsername.Text) && !string.IsNullOrEmpty(textBoxPassword.Text) && listBoxTime.Items.Count>0 && !string.IsNullOrEmpty(listBoxTime.Text);
+            buttonSetTask.Enabled = !string.IsNullOrEmpty(textBoxUsername.Text) && !string.IsNullOrEmpty(textBoxPassword.Text) && listBoxTime.Items.Count > 0 && !string.IsNullOrEmpty(listBoxTime.Text);
         }
     }
 }

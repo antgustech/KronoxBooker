@@ -19,7 +19,7 @@ namespace KronoxScraperBotGUI
                 td.Settings.AllowDemandStart = true;
                 td.Settings.WakeToRun = true;
                 td.Settings.RestartCount = 3;
-                td.Actions.Add(new ExecAction(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)) + "/KronoxBotBooker/files/Bot.exe", null, null));
+                td.Actions.Add(new ExecAction(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)) + "/Kronox Bot/files/Bot.exe", null, null));
                 ts.RootFolder.RegisterTaskDefinition(@"StartKronoxBotBooker", td);
             }
         }
