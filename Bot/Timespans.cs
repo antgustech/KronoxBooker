@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Bot
 {
+    /// <summary>
+    /// The different timespans for different buildings and days.
+    /// </summary>
     public static class Timespans
     {
         public static readonly string[] NiagaraWeekDays = new string[]{

@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Bot
+﻿namespace Bot
 {
+    /// <summary>
+    /// Constants that correlate between the building names and their URL formats.
+    /// </summary>
     public static class Building
     {
         public static readonly string Niagara = "-0017";

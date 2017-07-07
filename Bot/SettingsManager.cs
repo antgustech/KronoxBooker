@@ -14,7 +14,7 @@ namespace Bot
     public static class SettingsManager
     {
         private static byte[] entropy;
-        private static string path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "KronoxBotBooker/files/file.");
+        private static string path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Kronox Bot/files/file.");
 
         static SettingsManager()
         {
@@ -58,7 +58,7 @@ namespace Bot
             var settings = File.Exists(path) ? ReadSettings() : new List<JsonSettings>();
 
             if (settings.Contains(jsonSettings))
-                return false; //Need to check this.
+                return false;
 
             settings.Add(jsonSettings);
 
