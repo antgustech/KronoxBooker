@@ -24,8 +24,8 @@ namespace KronoxScraperBotGUI
             {
                 list.RemoveAt(checkedItems[i].Index - i);
             }
-              SettingsManager.UpdateSettings(list);
-              UpdateListView();
+            SettingsManager.UpdateSettings(list);
+            UpdateListView();
         }
 
         /// <summary>
@@ -37,21 +37,48 @@ namespace KronoxScraperBotGUI
             listViewTasks.Columns.Add("UserName");
             listViewTasks.Columns.Add("Building");
             listViewTasks.Columns.Add("Time");
+            listViewTasks.Columns.Add("Day");
             try
             {
                 var settings = SettingsManager.ReadSettings();
                 foreach (JsonSettings setting in settings)
                 {
-                    string[] row = setting.ToStringArray();
+                    string[] row = ToStringArray(setting);
                     var item = new ListViewItem(row);
                     listViewTasks.Items.Add(item);
                 }
-            }catch(System.IO.FileNotFoundException)
+            }
+            catch (System.IO.FileNotFoundException)
             {
                 //Nothing to handle.
             }
-           
+
             listViewTasks.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
+        }
+
+        /// <summary>
+        /// Creates a jsonarray from the JsonSetting object. TODO IMPLEMENT THIS.
+        /// </summary>
+        /// <param name="setting"></param>
+        /// <returns></returns>
+        public static string[] ToStringArray(JsonSettings setting)
+        {
+            var buildingName = "";
+            var buildingDesignation = setting.BuildingDesignation;
+
+            if (buildingDesignation == Building.Niagara)
+            {
+                buildingName = "Niagara";
+            }
+            else if (buildingDesignation == Building.Orkanen)
+            {
+                buildingName = "Orkanen";
+            }
+            else
+            {
+                buildingName = "Orkanenbiblioteket";
+            }
+            return new string[] { setting.Username, buildingName, setting.TimeInterval, setting.DayOfWeek.ToString() };
         }
     }
 }

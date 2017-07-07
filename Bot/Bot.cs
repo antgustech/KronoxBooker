@@ -12,11 +12,9 @@ namespace Bot
     /// </summary>
     internal class Bot
     {
-        private string _username, _password, _timeInterval, _bookingDate, _buildingDesignation;
-        private int _bookingTries, _building;
-        private readonly string _niagara = "-0017";
-        private readonly string _orkanen = "_0000";
-        private readonly string _orkanenBiblioteket = "_0004";
+        private string _username, _password, _timeInterval, _bookingDate, _building;
+        private int _bookingTries;
+        private DayOfWeek _dayOfWeek;
 
         /// <summary>
         /// Constructor that starts the bot. Loops through each settings and tries to book the room for each setting.
@@ -30,7 +28,7 @@ namespace Bot
                 Setup(setting);
                 Start();
             }
-            //SettingsManager.DeleteSettings();
+            SettingsManager.DeleteSettings();
         }
 
         /// <summary>
@@ -62,8 +60,9 @@ namespace Bot
         {
             _username = settings.Username;
             _password = settings.Password;
-            _building = settings.Building;
+            _building = settings.BuildingDesignation;
             _timeInterval = settings.TimeInterval;
+            _dayOfWeek = settings.DayOfWeek;
             _bookingDate = DateTime.Today.ToString("yy-MM-dd");
         }
 
@@ -95,7 +94,7 @@ namespace Bot
         /// <param name="browser">A browser object that is at the booking page.</param>
         private List<Room> GetAvailableRooms(ScrapingBrowser browser)
         {
-            var AvailRoomPage = browser.NavigateToPage(new Uri(BuildRoomUrl(_building)));
+            var AvailRoomPage = browser.NavigateToPage(new Uri($"https://schema.mah.se/ajax/ajax_resursbokning.jsp?op=hamtaBokningar&datum={_bookingDate}&flik=FLIK{_building}"));
             var nodes = AvailRoomPage.Html.SelectNodes("//td[@class='grupprum-ledig grupprum-kolumn']/a");
             if (nodes == null)
                 return null;
@@ -105,8 +104,9 @@ namespace Bot
             {
                 string[] split = (node.GetAttributeValue("onclick").Split('\''));
                 var roomName = (split[1]);
-                var timeInterval = (split[7]);
-                var room = new Room(roomName, timeInterval);
+                var timeSpan = (split[7]);
+                var parsedName = ParsedRoomName(roomName);
+                var room = new Room(roomName, timeSpan);
                 rooms.Add(room);
             }
             return rooms;
@@ -118,21 +118,21 @@ namespace Bot
         /// <param name="browser">A browser object that is at the booking page.</param>
         private bool Book(ScrapingBrowser browser, List<Room> rooms)
         {
-            var roomsWithinTime = rooms.Where(room => room.Time.ToString() == _timeInterval).ToList();
+            var roomsWithinTime = rooms.Where(room => room.Time == _timeInterval).ToList(); //Will have some comparrison failure here.
             var message = "";
 
             foreach (var room in roomsWithinTime)
             {
                 var roomName = room.Name;
-                var bookRoomUrl = $"https://schema.mah.se/ajax/ajax_resursbokning.jsp?op=boka&datum={_bookingDate}&id={roomName}&typ=RESURSER_LOKALER&intervall={_timeInterval}&moment=Bokad&flik=FLIK{_buildingDesignation}";
-                var bookingPage = browser.NavigateToPage(new Uri(bookRoomUrl));
+                var parsedTimeSpan = ParseTimeSpan(room.Time);
+                var bookingPage = browser.NavigateToPage(new Uri($"https://schema.mah.se/ajax/ajax_resursbokning.jsp?op=boka&datum={_bookingDate}&id={roomName}&typ=RESURSER_LOKALER&intervall={parsedTimeSpan}&moment=Bokad&flik=FLIK{_building}"));
 
                 message = (bookingPage.Html.InnerText.ToLower());
                 if (message == "ok")
                 {
                     return true;
                 }
-                else if (message.Contains("bokningen gick inte att spara pga kollision"))
+                else if (message.Contains("bokningen gick inte att spara pga kollision") || message.Contains("en tid som redan har intr"))
                 {
                     _bookingTries = 5;
                 }
@@ -141,26 +141,154 @@ namespace Bot
         }
 
         /// <summary>
-        /// Builds the URL for logging in to the correct page for each building.
+        /// Parses the room name into the format that the booking url requires. 
         /// </summary>
-        /// <param name="i"> The index of which building to build the URL to.</param>
-        private string BuildRoomUrl(int i)
+        /// <param name="roomName">String representation of the name.</param>
+        /// <returns>string represantation in url friendly format.</returns>
+        private string ParsedRoomName(string roomName)
         {
-            var roomUrl = $"https://schema.mah.se/ajax/ajax_resursbokning.jsp?op=hamtaBokningar&datum={_bookingDate}&flik=FLIK";
+            roomName = roomName.Replace(':', '%');
+            roomName = roomName.Insert(3, "3A");
+            return roomName;
+        }
 
-            switch (i)
+        /// <summary>
+        /// Parses the room string interval into int taking in consideration the day and the building.
+        /// </summary>
+        /// <param name="timeSpan">The timespan for a room as a string.</param>
+        /// <returns>The interval for that timespan.</returns>
+        private int ParseTimeSpan(string timeSpan)
+        {
+            var hour = timeSpan.Substring(0, 2);
+            var time = -1;
+
+            if (_building == Building.Niagara)
             {
-                case 0:
-                    _buildingDesignation = _niagara;
-                    break;
-                case 1:
-                    _buildingDesignation = _orkanen;
-                    break;
-                case 2:
-                    _buildingDesignation = _orkanenBiblioteket;
-                    break;
+                if (_dayOfWeek == DayOfWeek.Saturday && _dayOfWeek == DayOfWeek.Sunday)
+                {
+                    switch (hour)
+                    {
+                        case "08":
+                            time = 0;
+                            break;
+                        case "10":
+                            time = 1;
+                            break;
+                        case "15":
+                            time = 2;
+                            break;
+                        case "17":
+                            time = 3;
+                            break;
+                    }
+                }
+                else
+                {
+                    switch (hour)
+                    {
+                        case "08":
+                            time = 0;
+                            break;
+                        case "10":
+                            time = 1;
+                            break;
+                        case "13":
+                            time = 2;
+                            break;
+                        case "15":
+                            time = 3;
+                            break;
+                        case "17":
+                            time = 4;
+                            break;
+                    }
+                }
             }
-            return roomUrl += _buildingDesignation;
+            else if (_building == Building.Orkanen)
+            {
+                switch (hour)
+                {
+                    case "08":
+                        time = 0;
+                        break;
+                    case "10":
+                        time = 1;
+                        break;
+                    case "13":
+                        time = 2;
+                        break;
+                    case "15":
+                        time = 3;
+                        break;
+                    case "17":
+                        time = 4;
+                        break;
+                }
+            }
+            else if (_building == Building.OrkanenBiblioteket)
+            {
+                if (_dayOfWeek == DayOfWeek.Friday)
+                {
+                    switch (hour)
+                    {
+                        case "08":
+                            time = 0;
+                            break;
+                        case "10":
+                            time = 1;
+                            break;
+                        case "12":
+                            time = 2;
+                            break;
+                        case "14":
+                            time = 3;
+                            break;
+                        case "16":
+                            time = 4;
+                            break;
+                    }
+                }
+                else if (_dayOfWeek == DayOfWeek.Saturday)
+                {
+                    switch (hour)
+                    {
+                        case "11":
+                            time = 0;
+                            break;
+                        case "12":
+                            time = 1;
+                            break;
+                        case "14":
+                            time = 2;
+                            break;
+                    }
+                }
+                else if (_dayOfWeek != DayOfWeek.Sunday)
+                {
+                    switch (hour)
+                    {
+                        case "08":
+                            time = 0;
+                            break;
+                        case "10":
+                            time = 1;
+                            break;
+                        case "12":
+                            time = 2;
+                            break;
+                        case "14":
+                            time = 3;
+                            break;
+                        case "16":
+                            time = 4;
+                            break;
+                        case "18":
+                            time = 5;
+                            break;
+                    }
+                }
+            }
+            return time;
         }
     }
 }

@@ -48,106 +48,136 @@
             this.toolTip5 = new System.Windows.Forms.ToolTip(this.components);
             this.toolTip6 = new System.Windows.Forms.ToolTip(this.components);
             this.label6 = new System.Windows.Forms.Label();
+            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.SuspendLayout();
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(25, 9);
+            this.label1.ForeColor = System.Drawing.Color.DarkGray;
+            this.label1.Location = new System.Drawing.Point(40, 28);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(303, 65);
+            this.label1.Size = new System.Drawing.Size(394, 112);
             this.label1.TabIndex = 0;
             this.label1.Text = resources.GetString("label1.Text");
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(68, 119);
+            this.label2.ForeColor = System.Drawing.Color.White;
+            this.label2.Location = new System.Drawing.Point(92, 149);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(47, 13);
+            this.label2.Size = new System.Drawing.Size(59, 16);
             this.label2.TabIndex = 1;
             this.label2.Text = "Building:";
             // 
             // listBoxBuilding
             // 
+            this.listBoxBuilding.BackColor = System.Drawing.Color.Silver;
             this.listBoxBuilding.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.listBoxBuilding.FormattingEnabled = true;
-            this.listBoxBuilding.Location = new System.Drawing.Point(133, 116);
+            this.listBoxBuilding.Location = new System.Drawing.Point(177, 146);
+            this.listBoxBuilding.Margin = new System.Windows.Forms.Padding(4);
             this.listBoxBuilding.Name = "listBoxBuilding";
-            this.listBoxBuilding.Size = new System.Drawing.Size(121, 21);
+            this.listBoxBuilding.Size = new System.Drawing.Size(160, 24);
             this.listBoxBuilding.TabIndex = 3;
             this.toolTip1.SetToolTip(this.listBoxBuilding, "Choose the building where you want to book a room in");
+            this.listBoxBuilding.SelectedIndexChanged += new System.EventHandler(this.listBoxBuilding_SelectedIndexChanged);
             // 
             // textBoxUsername
             // 
-            this.textBoxUsername.Location = new System.Drawing.Point(133, 186);
+            this.textBoxUsername.BackColor = System.Drawing.Color.LightGray;
+            this.textBoxUsername.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.textBoxUsername.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBoxUsername.Location = new System.Drawing.Point(177, 233);
+            this.textBoxUsername.Margin = new System.Windows.Forms.Padding(4);
             this.textBoxUsername.Name = "textBoxUsername";
-            this.textBoxUsername.Size = new System.Drawing.Size(121, 20);
+            this.textBoxUsername.Size = new System.Drawing.Size(160, 24);
             this.textBoxUsername.TabIndex = 5;
             this.toolTip1.SetToolTip(this.textBoxUsername, "You username for Kronox and it\'s learning, usually on the format AA1111");
+            this.textBoxUsername.TextChanged += new System.EventHandler(this.textBoxUsername_TextChanged);
             // 
             // textBoxPassword
             // 
             this.textBoxPassword.AccessibleRole = System.Windows.Forms.AccessibleRole.TitleBar;
-            this.textBoxPassword.Location = new System.Drawing.Point(133, 221);
+            this.textBoxPassword.BackColor = System.Drawing.Color.LightGray;
+            this.textBoxPassword.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.textBoxPassword.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBoxPassword.Location = new System.Drawing.Point(177, 276);
+            this.textBoxPassword.Margin = new System.Windows.Forms.Padding(4);
             this.textBoxPassword.Name = "textBoxPassword";
-            this.textBoxPassword.Size = new System.Drawing.Size(121, 20);
+            this.textBoxPassword.Size = new System.Drawing.Size(160, 24);
             this.textBoxPassword.TabIndex = 6;
             this.toolTip1.SetToolTip(this.textBoxPassword, "Your password.");
+            this.textBoxPassword.TextChanged += new System.EventHandler(this.textBoxPassword_TextChanged);
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(68, 189);
+            this.label3.ForeColor = System.Drawing.Color.White;
+            this.label3.Location = new System.Drawing.Point(91, 233);
+            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(58, 13);
+            this.label3.Size = new System.Drawing.Size(74, 16);
             this.label3.TabIndex = 7;
             this.label3.Text = "Username:";
             // 
             // listBoxTime
             // 
+            this.listBoxTime.BackColor = System.Drawing.Color.LightGray;
             this.listBoxTime.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.listBoxTime.FormattingEnabled = true;
-            this.listBoxTime.Location = new System.Drawing.Point(133, 155);
+            this.listBoxTime.Location = new System.Drawing.Point(177, 188);
+            this.listBoxTime.Margin = new System.Windows.Forms.Padding(4);
             this.listBoxTime.Name = "listBoxTime";
-            this.listBoxTime.Size = new System.Drawing.Size(121, 21);
+            this.listBoxTime.Size = new System.Drawing.Size(160, 24);
             this.listBoxTime.TabIndex = 8;
             this.toolTip1.SetToolTip(this.listBoxTime, "Choose the time for when you want to book your room");
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(68, 155);
+            this.label4.ForeColor = System.Drawing.Color.White;
+            this.label4.Location = new System.Drawing.Point(91, 191);
+            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(33, 13);
+            this.label4.Size = new System.Drawing.Size(42, 16);
             this.label4.TabIndex = 9;
             this.label4.Text = "Time:";
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(68, 224);
+            this.label5.ForeColor = System.Drawing.Color.White;
+            this.label5.Location = new System.Drawing.Point(91, 276);
+            this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(56, 13);
+            this.label5.Size = new System.Drawing.Size(71, 16);
             this.label5.TabIndex = 10;
             this.label5.Text = "Password:";
             // 
             // buttonSetTask
             // 
-            this.buttonSetTask.Location = new System.Drawing.Point(133, 268);
+            this.buttonSetTask.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonSetTask.Location = new System.Drawing.Point(177, 330);
+            this.buttonSetTask.Margin = new System.Windows.Forms.Padding(4);
             this.buttonSetTask.Name = "buttonSetTask";
-            this.buttonSetTask.Size = new System.Drawing.Size(127, 23);
+            this.buttonSetTask.Size = new System.Drawing.Size(169, 28);
             this.buttonSetTask.TabIndex = 11;
-            this.buttonSetTask.Text = "Set task";
+            this.buttonSetTask.Text = "Schedule task";
             this.toolTip1.SetToolTip(this.buttonSetTask, "Schedules a task  with the Windows Task manager.");
             this.buttonSetTask.UseVisualStyleBackColor = true;
             this.buttonSetTask.Click += new System.EventHandler(this.buttonSetTask_Click);
             // 
             // buttonTasks
             // 
-            this.buttonTasks.Location = new System.Drawing.Point(71, 268);
+            this.buttonTasks.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonTasks.Location = new System.Drawing.Point(95, 330);
+            this.buttonTasks.Margin = new System.Windows.Forms.Padding(4);
             this.buttonTasks.Name = "buttonTasks";
-            this.buttonTasks.Size = new System.Drawing.Size(46, 23);
+            this.buttonTasks.Size = new System.Drawing.Size(61, 28);
             this.buttonTasks.TabIndex = 12;
             this.buttonTasks.Text = "Tasks";
             this.toolTip1.SetToolTip(this.buttonTasks, "See already set tasks");
@@ -157,17 +187,33 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(72, 333);
+            this.label6.ForeColor = System.Drawing.Color.DimGray;
+            this.label6.Location = new System.Drawing.Point(118, 414);
+            this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(188, 13);
+            this.label6.Size = new System.Drawing.Size(112, 16);
             this.label6.TabIndex = 13;
-            this.label6.Text = "Anton Gustafsson baxtexx@gmail.com";
+            this.label6.Text = "Anton Gustafsson";
+            // 
+            // linkLabel1
+            // 
+            this.linkLabel1.AutoSize = true;
+            this.linkLabel1.LinkColor = System.Drawing.Color.DimGray;
+            this.linkLabel1.Location = new System.Drawing.Point(255, 414);
+            this.linkLabel1.Name = "linkLabel1";
+            this.linkLabel1.Size = new System.Drawing.Size(46, 16);
+            this.linkLabel1.TabIndex = 14;
+            this.linkLabel1.TabStop = true;
+            this.linkLabel1.Text = "Github";
+            this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
             // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(345, 367);
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(26)))), ((int)(((byte)(26)))));
+            this.ClientSize = new System.Drawing.Size(460, 452);
+            this.Controls.Add(this.linkLabel1);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.buttonTasks);
             this.Controls.Add(this.buttonSetTask);
@@ -180,6 +226,9 @@
             this.Controls.Add(this.listBoxBuilding);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
+            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Kronox room booker";
@@ -209,6 +258,7 @@
         private System.Windows.Forms.ToolTip toolTip5;
         private System.Windows.Forms.ToolTip toolTip6;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.LinkLabel linkLabel1;
     }
 }
 
