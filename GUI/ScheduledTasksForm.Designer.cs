@@ -77,9 +77,10 @@
             this.Controls.Add(this.buttonRemoveSelected);
             this.Controls.Add(this.listViewTasks);
             this.Controls.Add(this.labelInfoTaskScheduled);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "ScheduledTasksForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "ScheduledTasks";
+            this.Text = "Scheduled Tasks";
             this.ResumeLayout(false);
             this.PerformLayout();
 

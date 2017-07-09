@@ -96,9 +96,10 @@ namespace KronoxScraperBotGUI
             var password = textBoxPassword.Text;
             var building = listBoxBuilding.SelectedIndex.ToString();
             var time = listBoxTime.SelectedItem.ToString();
+            SetTimeDropDown();
             SaveSettings(username, password, int.Parse(building), time);
             var shed = new TaskScheduler();
-            shed.SetTask();
+            shed.AddTask();
             MessageBox.Show("Task is scheduled!", "Message");
         }
 

@@ -11,6 +11,7 @@ namespace KronoxScraperBotGUI
             InitializeComponent();
             UpdateListView();
             listViewTasks.View = View.Details;
+            ControlTaskButton();
         }
 
         /// <summary>
@@ -26,6 +27,7 @@ namespace KronoxScraperBotGUI
             }
             SettingsManager.UpdateSettings(list);
             UpdateListView();
+            ControlTaskButton();
         }
 
         /// <summary>
@@ -50,9 +52,12 @@ namespace KronoxScraperBotGUI
             }
             catch (System.IO.FileNotFoundException)
             {
-                //Nothing to handle.
+           
             }
-
+            if(listViewTasks.Items.Count < 1)
+            {
+                TaskScheduler.RemoveTask();
+            }
             listViewTasks.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
         }
 
@@ -79,6 +84,12 @@ namespace KronoxScraperBotGUI
                 buildingName = "Orkanenbiblioteket";
             }
             return new string[] { setting.Username, buildingName, setting.TimeInterval, setting.DayOfWeek.ToString() };
+        }
+
+
+        private void ControlTaskButton()
+        {
+            buttonRemoveSelected.Enabled = listViewTasks.Items.Count > 0;
         }
     }
 }
