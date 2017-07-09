@@ -5,6 +5,6 @@ Windows Task Scheduler to schedule the console application to run at midnight. T
 and book a room for the user automaticly.
 
 To use the application you have two options, either compile the two applications yourself or download the already compiled version. In both cases the runnable files have to be placed in your documents folder with the following folders:
-C:\Users\USERNAME\Documents\Kronox Bot\files. If you download the compiled version, just unzip the file and place it's whole contents in your Documents folder.
+C:\Users\USERNAME\Documents\Kronox Bot\files. If you download the compiled version, place it in your Documents folder like the example above.
 
-Download Link: https://mega.nz/#!f00wDJRa!RjXIhlcbuKd26a08cpukpS8n-TcQkDaJ6a4Mg65nNhU
+Download Link: https://mega.nz/#F!npUWnLRB!pIwjrg5ZaPTO11gze6fNjg
