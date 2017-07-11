@@ -1,5 +1,7 @@
 ﻿using Bot;
 using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Windows.Forms;
 
 namespace KronoxScraperBotGUI
@@ -40,9 +42,16 @@ namespace KronoxScraperBotGUI
             listViewTasks.Columns.Add("Building");
             listViewTasks.Columns.Add("Time");
             listViewTasks.Columns.Add("Day");
-            //listViewTasks.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
+            List<JsonSettings> settings = null;
+            try
+            {
+                settings = SettingsManager.ReadSettings();
 
-            var settings = SettingsManager.ReadSettings();
+            }
+            catch (IOException)
+            {
+                return;
+            }
                 foreach (JsonSettings setting in settings)
                 {
                     string[] row = ToStringArray(setting);
@@ -54,6 +63,7 @@ namespace KronoxScraperBotGUI
             if(listViewTasks.Items.Count < 1)
             {
                 TaskScheduler.RemoveTask();
+                SettingsManager.DeleteSettings();
             }
             
         }

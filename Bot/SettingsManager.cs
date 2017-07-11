@@ -70,7 +70,7 @@ namespace Bot
         /// </summary>
         /// <param name="jsonSettings"></param>
         /// <returns></returns>
-        internal static void DeleteSettings()
+        public static void DeleteSettings()
         {
             File.Delete(_path);
         }
