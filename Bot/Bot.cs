@@ -13,7 +13,7 @@ namespace Bot
     internal class Bot
     {
         private string _username, _password, _timeInterval, _bookingDate, _building;
-        private int _bookingTries;
+        private short _bookingTries;
         private DayOfWeek _dayOfWeek;
 
         /// <summary>
@@ -118,7 +118,7 @@ namespace Bot
         /// <param name="browser">A browser object that is at the booking page.</param>
         private bool Book(ScrapingBrowser browser, List<Room> rooms)
         {
-            var roomsWithinTime = rooms.Where(room => room.Time == _timeInterval).ToList(); //Will have some comparrison failure here.
+            var roomsWithinTime = rooms.Where(room => room.Time == _timeInterval).ToList();
             var message = "";
 
             foreach (var room in roomsWithinTime)

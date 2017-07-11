@@ -36,29 +36,26 @@ namespace KronoxScraperBotGUI
         private void UpdateListView()
         {
             listViewTasks.Clear();
-            listViewTasks.Columns.Add("UserName");
+            listViewTasks.Columns.Add("User");
             listViewTasks.Columns.Add("Building");
             listViewTasks.Columns.Add("Time");
             listViewTasks.Columns.Add("Day");
-            try
-            {
-                var settings = SettingsManager.ReadSettings();
+            //listViewTasks.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
+
+            var settings = SettingsManager.ReadSettings();
                 foreach (JsonSettings setting in settings)
                 {
                     string[] row = ToStringArray(setting);
                     var item = new ListViewItem(row);
                     listViewTasks.Items.Add(item);
                 }
-            }
-            catch (System.IO.FileNotFoundException)
-            {
-           
-            }
+            
+            
             if(listViewTasks.Items.Count < 1)
             {
                 TaskScheduler.RemoveTask();
             }
-            listViewTasks.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
+            
         }
 
         /// <summary>

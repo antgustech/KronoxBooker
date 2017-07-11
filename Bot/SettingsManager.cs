@@ -13,18 +13,11 @@ namespace Bot
     /// </summary>
     public static class SettingsManager
     {
-        private static byte[] entropy;
-        private static string path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Kronox Bot/files/file.");
-
-        static SettingsManager()
+        private static string _path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Kronox Bot/files/file.");
+        private static readonly byte[] _entropy = new byte[]
         {
-            entropy = new byte[5];
-            entropy[0] = 222;
-            entropy[1] = 2;
-            entropy[2] = 33;
-            entropy[3] = 112;
-            entropy[4] = 001;
-        }
+            222,2,33,112,001
+        };
 
         /// <summary>
         /// Reads all json entries from json file and returns them in a list.
@@ -32,20 +25,10 @@ namespace Bot
         /// <returns></returns>
         public static List<JsonSettings> ReadSettings()
         {
-            byte[] fileCipher = File.ReadAllBytes(path);
-            byte[] plaintextDecypt = ProtectedData.Unprotect(fileCipher, entropy, DataProtectionScope.CurrentUser);
-            var str = System.Text.Encoding.Default.GetString(plaintextDecypt);
-            return JsonConvert.DeserializeObject<JsonSettings[]>(str).ToList<JsonSettings>();
-        }
-
-        /// <summary>
-        /// Deletes the settings file.
-        /// </summary>
-        /// <param name="jsonSettings"></param>
-        /// <returns></returns>
-        internal static void DeleteSettings()
-        {
-            File.Delete(path);
+            var fileEncrypted = File.ReadAllBytes(_path);
+            var fileDecrypted = ProtectedData.Unprotect(fileEncrypted, _entropy, DataProtectionScope.CurrentUser);
+            var fileAsString = Encoding.Default.GetString(fileDecrypted);
+            return JsonConvert.DeserializeObject<JsonSettings[]>(fileAsString).ToList<JsonSettings>();
         }
 
         /// <summary>
@@ -55,18 +38,14 @@ namespace Bot
         /// <returns></returns>
         public static bool WriteSettings(JsonSettings jsonSettings)
         {
-            var settings = File.Exists(path) ? ReadSettings() : new List<JsonSettings>();
+           var settings = File.Exists(_path) ? ReadSettings() : new List<JsonSettings>();
+           var exists =  settings.Where(s => s.TimeInterval == jsonSettings.TimeInterval && s.BuildingDesignation == jsonSettings.BuildingDesignation && s.Username == jsonSettings.Username);
 
-            if (settings.Contains(jsonSettings))
+            if (exists.Count() > 0)
                 return false;
 
             settings.Add(jsonSettings);
-
-            var json = JsonConvert.SerializeObject(settings);
-            byte[] ciphertext = ProtectedData.Protect(Encoding.UTF8.GetBytes(json), entropy,
-               DataProtectionScope.CurrentUser);
-
-            File.WriteAllBytes(path, ciphertext);
+            UpdateSettings(settings);
             return true;
         }
 
@@ -75,16 +54,25 @@ namespace Bot
         /// </summary>
         /// <param name="jsonSettings"></param>
         /// <returns></returns>
-        public static bool UpdateSettings(List<JsonSettings> jsonSettings)
+        public static void UpdateSettings(List<JsonSettings> jsonSettings)
         {
             DeleteSettings();
 
             var json = JsonConvert.SerializeObject(jsonSettings);
-            byte[] ciphertext = ProtectedData.Protect(Encoding.UTF8.GetBytes(json), entropy,
+            byte[] fileEncrypted = ProtectedData.Protect(Encoding.UTF8.GetBytes(json), _entropy,
                DataProtectionScope.CurrentUser);
 
-            File.WriteAllBytes(path, ciphertext);
-            return true;
+            File.WriteAllBytes(_path, fileEncrypted);
+        }
+
+        /// <summary>
+        /// Deletes the settings file.
+        /// </summary>
+        /// <param name="jsonSettings"></param>
+        /// <returns></returns>
+        internal static void DeleteSettings()
+        {
+            File.Delete(_path);
         }
     }
 }

@@ -37,7 +37,7 @@
             // 
             this.labelInfoTaskScheduled.AutoSize = true;
             this.labelInfoTaskScheduled.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelInfoTaskScheduled.ForeColor = System.Drawing.Color.White;
+            this.labelInfoTaskScheduled.ForeColor = System.Drawing.Color.DarkGray;
             this.labelInfoTaskScheduled.Location = new System.Drawing.Point(12, 9);
             this.labelInfoTaskScheduled.Name = "labelInfoTaskScheduled";
             this.labelInfoTaskScheduled.Size = new System.Drawing.Size(305, 45);
@@ -47,20 +47,19 @@
             // 
             // listViewTasks
             // 
-            this.listViewTasks.BackColor = System.Drawing.Color.Silver;
+            this.listViewTasks.BackColor = System.Drawing.Color.DimGray;
             this.listViewTasks.CheckBoxes = true;
             this.listViewTasks.FullRowSelect = true;
-            this.listViewTasks.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
-            this.listViewTasks.Location = new System.Drawing.Point(38, 66);
+            this.listViewTasks.Location = new System.Drawing.Point(44, 66);
             this.listViewTasks.Name = "listViewTasks";
-            this.listViewTasks.Size = new System.Drawing.Size(258, 117);
+            this.listViewTasks.Size = new System.Drawing.Size(245, 110);
             this.listViewTasks.TabIndex = 2;
             this.listViewTasks.UseCompatibleStateImageBehavior = false;
             // 
             // buttonRemoveSelected
             // 
             this.buttonRemoveSelected.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonRemoveSelected.Location = new System.Drawing.Point(94, 201);
+            this.buttonRemoveSelected.Location = new System.Drawing.Point(97, 202);
             this.buttonRemoveSelected.Name = "buttonRemoveSelected";
             this.buttonRemoveSelected.Size = new System.Drawing.Size(139, 31);
             this.buttonRemoveSelected.TabIndex = 3;

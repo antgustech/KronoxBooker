@@ -100,7 +100,7 @@ namespace KronoxScraperBotGUI
             SaveSettings(username, password, int.Parse(building), time);
             var shed = new TaskScheduler();
             shed.AddTask();
-            MessageBox.Show("Task is scheduled!", "Message");
+        
         }
 
         /// <summary>
@@ -130,7 +130,16 @@ namespace KronoxScraperBotGUI
                 TimeInterval = time,
                 DayOfWeek = date.DayOfWeek
             };
-            SettingsManager.WriteSettings(settings);
+            var exists = SettingsManager.WriteSettings(settings);
+
+            if (!exists)
+            {
+                MessageBox.Show("Task already exists! Please set another time, building or user.", "Message");
+            }
+            else
+            {
+                MessageBox.Show("Task is scheduled!", "Message");
+            }
         }
 
         private void listBoxBuilding_SelectedIndexChanged(object sender, EventArgs e)

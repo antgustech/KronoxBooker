@@ -12,11 +12,11 @@ namespace KronoxScraperBotGUI
         internal void AddTask()
         {
             var now = DateTime.Now;
-            DateTime t = new DateTime(now.Year, now.Month, now.Day, 0, 0, 01).AddDays(1);
+            var t = new DateTime(now.Year, now.Month, now.Day, 0, 0, 01).AddDays(1);
 
             using (TaskService ts = new TaskService())
             {
-                TaskDefinition td = ts.NewTask();
+                var td = ts.NewTask();
                 td.RegistrationInfo.Description = "This task will start the bot booking application at midnight.";
                 td.Triggers.Add(new TimeTrigger(t));
                 td.Settings.AllowDemandStart = true;
@@ -24,7 +24,6 @@ namespace KronoxScraperBotGUI
                 td.Settings.RestartCount = 3;
                 td.Actions.Add(new ExecAction(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)) + "/Kronox Bot/files/Bot.exe", null, null));
                 ts.RootFolder.RegisterTaskDefinition(@"StartKronoxBotBooker", td);
-             
             }
         }
 
@@ -35,7 +34,11 @@ namespace KronoxScraperBotGUI
         {
             using (TaskService ts = new TaskService())
             {
-                ts.RootFolder.DeleteTask("StartKronoxBotBooker");
+                try
+                {
+                    ts.RootFolder.DeleteTask("StartKronoxBotBooker");
+                }
+                catch (IOException) { }
             }
         }
     }

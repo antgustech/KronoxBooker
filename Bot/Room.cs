@@ -6,11 +6,6 @@
     /// </summary>
     public class Room
     {
-        /// <summary>
-        /// Creates a new Room by parsing the name and time.
-        /// </summary>
-        /// <param name="name"></param>
-        /// <param name="timeInterval"></param>
         public Room(string name, string timeInterval)
         {
             Name = name;
