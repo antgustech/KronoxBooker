@@ -8,6 +8,7 @@ namespace KronoxScraperBotGUI
     public partial class MainForm : Form
     {
         private DateTime date;
+
         public MainForm()
         {
             date = DateTime.Now;
@@ -43,21 +44,19 @@ namespace KronoxScraperBotGUI
         {
             try
             {
-
                 var user = HistoryManager.Read();
-                if(user.Name != null)
+                if (user.Name != null)
                 {
                     checkBoxSaveUsername.Checked = true;
                     textBoxUsername.Text = user.Name;
                 }
-                if(user.Password != null)
+                if (user.Password != null)
                 {
                     checkBoxSavePassword.Checked = true;
                     textBoxPassword.Text = user.Password;
                 }
-
             }
-            catch(IOException e)
+            catch (IOException e)
             {
                 //Do nothing.
             }
@@ -132,31 +131,27 @@ namespace KronoxScraperBotGUI
             shed.AddTask();
             checkCheckBoxes();
             SaveSettings(username, password, int.Parse(building), time);
- 
-
         }
 
         private void checkCheckBoxes()
         {
-                if (checkBoxSaveUsername.Checked && checkBoxSavePassword.Checked)
-                {
-                    HistoryManager.WriteSettings(new User { Name = textBoxUsername.Text, Password = textBoxPassword.Text });
-                }
-                else if (checkBoxSaveUsername.Checked && !checkBoxSavePassword.Checked)
-                {
-                    HistoryManager.WriteSettings(new User { Name = textBoxUsername.Text, Password = null });
-                }
-                else if (!checkBoxSaveUsername.Checked && checkBoxSavePassword.Checked)
-                {
-                    HistoryManager.WriteSettings(new User { Name = null, Password = textBoxPassword.Text });
-                }
-                else
-                {
-                    HistoryManager.Delete();
-                }  
+            if (checkBoxSaveUsername.Checked && checkBoxSavePassword.Checked)
+            {
+                HistoryManager.WriteSettings(new User { Name = textBoxUsername.Text, Password = textBoxPassword.Text });
+            }
+            else if (checkBoxSaveUsername.Checked && !checkBoxSavePassword.Checked)
+            {
+                HistoryManager.WriteSettings(new User { Name = textBoxUsername.Text, Password = null });
+            }
+            else if (!checkBoxSaveUsername.Checked && checkBoxSavePassword.Checked)
+            {
+                HistoryManager.WriteSettings(new User { Name = null, Password = textBoxPassword.Text });
+            }
+            else
+            {
+                HistoryManager.Delete();
+            }
         }
-
-    
 
         /// <summary>
         /// Saves settings to file.
@@ -169,9 +164,11 @@ namespace KronoxScraperBotGUI
                 case 0:
                     buildingDesignation = Building.Niagara;
                     break;
+
                 case 1:
                     buildingDesignation = Building.Orkanen;
                     break;
+
                 case 2:
                     buildingDesignation = Building.OrkanenBiblioteket;
                     break;
@@ -208,7 +205,6 @@ namespace KronoxScraperBotGUI
             SetTimeDropDown();
         }
 
-
         private void textBoxUsername_TextChanged(object sender, EventArgs e)
         {
             ControlTaskButton();
@@ -233,6 +229,7 @@ namespace KronoxScraperBotGUI
         {
             buttonSetTask.Enabled = !string.IsNullOrEmpty(textBoxUsername.Text) && !string.IsNullOrEmpty(textBoxPassword.Text) && listBoxTime.Items.Count > 0 && !string.IsNullOrEmpty(listBoxTime.Text);
         }
+
         /// <summary>
         /// Save or remove username.
         /// </summary>
@@ -240,7 +237,6 @@ namespace KronoxScraperBotGUI
         /// <param name="e"></param>
         private void checkBoxSaveUsername_CheckedChanged(object sender, EventArgs e)
         {
-
         }
 
         /// <summary>
@@ -250,7 +246,6 @@ namespace KronoxScraperBotGUI
         /// <param name="e"></param>
         private void checkBoxSavePassword_CheckedChanged(object sender, EventArgs e)
         {
-
         }
     }
 }
