@@ -15,6 +15,10 @@ namespace KronoxScraperBotGUI
             1,9,255,112,001,12,152,4,8,32
         };
 
+        /// <summary>
+        /// Reads User from file.
+        /// </summary>
+        /// <returns></returns>
         public static User Read()
         {
             var fileEncrypted = File.ReadAllBytes(_path);
@@ -24,7 +28,7 @@ namespace KronoxScraperBotGUI
         }
 
         /// <summary>
-        /// Adds a new settings entry to json file.
+        /// Adds a new user to file.
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
@@ -40,7 +44,7 @@ namespace KronoxScraperBotGUI
         }
 
         /// <summary>
-        /// Deletes the settings file.
+        /// Deletes the user file.
         /// </summary>
         /// <param name="jsonSettings"></param>
         /// <returns></returns>
