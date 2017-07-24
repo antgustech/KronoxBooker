@@ -1,5 +1,6 @@
 ﻿using Bot;
 using System;
+using System.IO;
 using System.Windows.Forms;
 
 namespace KronoxScraperBotGUI
@@ -35,6 +36,31 @@ namespace KronoxScraperBotGUI
             textBoxPassword.PasswordChar = '*';
             buttonSetTask.Enabled = false;
             SetTimeDropDown();
+            SetCheckBoxes();
+        }
+
+        private void SetCheckBoxes()
+        {
+            try
+            {
+
+                var user = HistoryManager.Read();
+                if(user.Name != null)
+                {
+                    checkBoxSaveUsername.Checked = true;
+                    textBoxUsername.Text = user.Name;
+                }
+                if(user.Password != null)
+                {
+                    checkBoxSavePassword.Checked = true;
+                    textBoxPassword.Text = user.Password;
+                }
+
+            }
+            catch(IOException e)
+            {
+                //Do nothing.
+            }
         }
 
         /// <summary>
@@ -102,11 +128,35 @@ namespace KronoxScraperBotGUI
             var building = listBoxBuilding.SelectedIndex.ToString();
             var time = listBoxTime.SelectedItem.ToString();
             SetTimeDropDown();
-            SaveSettings(username, password, int.Parse(building), time);
             var shed = new TaskScheduler();
             shed.AddTask();
-        
+            checkCheckBoxes();
+            SaveSettings(username, password, int.Parse(building), time);
+ 
+
         }
+
+        private void checkCheckBoxes()
+        {
+                if (checkBoxSaveUsername.Checked && checkBoxSavePassword.Checked)
+                {
+                    HistoryManager.WriteSettings(new User { Name = textBoxUsername.Text, Password = textBoxPassword.Text });
+                }
+                else if (checkBoxSaveUsername.Checked && !checkBoxSavePassword.Checked)
+                {
+                    HistoryManager.WriteSettings(new User { Name = textBoxUsername.Text, Password = null });
+                }
+                else if (!checkBoxSaveUsername.Checked && checkBoxSavePassword.Checked)
+                {
+                    HistoryManager.WriteSettings(new User { Name = null, Password = textBoxPassword.Text });
+                }
+                else
+                {
+                    HistoryManager.Delete();
+                }  
+        }
+
+    
 
         /// <summary>
         /// Saves settings to file.
@@ -127,7 +177,7 @@ namespace KronoxScraperBotGUI
                     break;
             }
 
-            var settings = new JsonSettings()
+            var settings = new Setting()
             {
                 Username = username,
                 Password = password,
@@ -182,6 +232,25 @@ namespace KronoxScraperBotGUI
         private void ControlTaskButton()
         {
             buttonSetTask.Enabled = !string.IsNullOrEmpty(textBoxUsername.Text) && !string.IsNullOrEmpty(textBoxPassword.Text) && listBoxTime.Items.Count > 0 && !string.IsNullOrEmpty(listBoxTime.Text);
+        }
+        /// <summary>
+        /// Save or remove username.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void checkBoxSaveUsername_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        /// <summary>
+        /// Save or remove password.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void checkBoxSavePassword_CheckedChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

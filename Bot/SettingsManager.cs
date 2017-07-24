@@ -24,12 +24,12 @@ namespace Bot
         /// Reads all json entries from json file and returns them in a list.
         /// </summary>
         /// <returns></returns>
-        public static List<JsonSettings> ReadSettings()
+        public static List<Setting> ReadSettings()
         {
             var fileEncrypted = File.ReadAllBytes(_path);
             var fileDecrypted = ProtectedData.Unprotect(fileEncrypted, _entropy, DataProtectionScope.CurrentUser);
             var fileAsString = Encoding.Default.GetString(fileDecrypted);
-            return JsonConvert.DeserializeObject<JsonSettings[]>(fileAsString).ToList<JsonSettings>();
+            return JsonConvert.DeserializeObject<Setting[]>(fileAsString).ToList<Setting>();
         }
 
         /// <summary>
@@ -37,9 +37,9 @@ namespace Bot
         /// </summary>
         /// <param name="jsonSettings"></param>
         /// <returns></returns>
-        public static bool WriteSettings(JsonSettings jsonSettings)
+        public static bool WriteSettings(Setting jsonSettings)
         {
-            var settings = File.Exists(_path) ? ReadSettings() : new List<JsonSettings>();
+            var settings = File.Exists(_path) ? ReadSettings() : new List<Setting>();
             var exists = settings.Where(s => s.TimeInterval == jsonSettings.TimeInterval && s.BuildingDesignation == jsonSettings.BuildingDesignation && s.Username == jsonSettings.Username);
 
             if (exists.Count() > 0)
@@ -55,7 +55,7 @@ namespace Bot
         /// </summary>
         /// <param name="jsonSettings"></param>
         /// <returns></returns>
-        public static void UpdateSettings(List<JsonSettings> jsonSettings)
+        public static void UpdateSettings(List<Setting> jsonSettings)
         {
             DeleteSettings();
 

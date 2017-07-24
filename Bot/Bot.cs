@@ -1,6 +1,7 @@
 ﻿using ScrapySharp.Extensions;
 using ScrapySharp.Network;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -56,7 +57,7 @@ namespace Bot
         /// Retrieves values from JsonSettings and sets them for variables in this class.
         /// </summary>
         /// <param name="settings">A JsonSetting object that contain settings set by the user.</param>
-        private void Setup(JsonSettings settings)
+        private void Setup(Setting settings)
         {
             _username = settings.Username;
             _password = settings.Password;

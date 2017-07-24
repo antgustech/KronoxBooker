@@ -42,7 +42,7 @@ namespace KronoxScraperBotGUI
             listViewTasks.Columns.Add("Building");
             listViewTasks.Columns.Add("Time");
             listViewTasks.Columns.Add("Day");
-            List<JsonSettings> settings = null;
+            List<Setting> settings = null;
             try
             {
                 settings = SettingsManager.ReadSettings();
@@ -52,7 +52,7 @@ namespace KronoxScraperBotGUI
             {
                 return;
             }
-                foreach (JsonSettings setting in settings)
+                foreach (Setting setting in settings)
                 {
                     string[] row = ToStringArray(setting);
                     var item = new ListViewItem(row);
@@ -73,7 +73,7 @@ namespace KronoxScraperBotGUI
         /// </summary>
         /// <param name="setting"></param>
         /// <returns></returns>
-        public static string[] ToStringArray(JsonSettings setting)
+        public static string[] ToStringArray(Setting setting)
         {
             var buildingName = "";
             var buildingDesignation = setting.BuildingDesignation;

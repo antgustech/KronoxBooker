@@ -6,7 +6,7 @@ namespace Bot
     /// Settings for the bot. Each setting is stored in a json file that is later
     /// read by the bot.
     /// </summary>
-    public class JsonSettings
+    public class Setting
     {
         public string Username { get; set; }
         public string Password { get; set; }

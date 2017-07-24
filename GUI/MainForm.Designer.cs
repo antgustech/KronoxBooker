@@ -49,6 +49,8 @@
             this.toolTip6 = new System.Windows.Forms.ToolTip(this.components);
             this.label6 = new System.Windows.Forms.Label();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
+            this.checkBoxSaveUsername = new System.Windows.Forms.CheckBox();
+            this.checkBoxSavePassword = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // label1
@@ -175,7 +177,7 @@
             // buttonTasks
             // 
             this.buttonTasks.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonTasks.Location = new System.Drawing.Point(95, 330);
+            this.buttonTasks.Location = new System.Drawing.Point(90, 330);
             this.buttonTasks.Margin = new System.Windows.Forms.Padding(4);
             this.buttonTasks.Name = "buttonTasks";
             this.buttonTasks.Size = new System.Drawing.Size(61, 28);
@@ -208,12 +210,36 @@
             this.linkLabel1.Text = "Github";
             this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
             // 
+            // checkBoxSaveUsername
+            // 
+            this.checkBoxSaveUsername.AutoSize = true;
+            this.checkBoxSaveUsername.Location = new System.Drawing.Point(355, 236);
+            this.checkBoxSaveUsername.Name = "checkBoxSaveUsername";
+            this.checkBoxSaveUsername.Size = new System.Drawing.Size(59, 20);
+            this.checkBoxSaveUsername.TabIndex = 15;
+            this.checkBoxSaveUsername.Text = "Save";
+            this.checkBoxSaveUsername.UseVisualStyleBackColor = true;
+            this.checkBoxSaveUsername.CheckedChanged += new System.EventHandler(this.checkBoxSaveUsername_CheckedChanged);
+            // 
+            // checkBoxSavePassword
+            // 
+            this.checkBoxSavePassword.AutoSize = true;
+            this.checkBoxSavePassword.Location = new System.Drawing.Point(355, 282);
+            this.checkBoxSavePassword.Name = "checkBoxSavePassword";
+            this.checkBoxSavePassword.Size = new System.Drawing.Size(59, 20);
+            this.checkBoxSavePassword.TabIndex = 16;
+            this.checkBoxSavePassword.Text = "Save";
+            this.checkBoxSavePassword.UseVisualStyleBackColor = true;
+            this.checkBoxSavePassword.CheckedChanged += new System.EventHandler(this.checkBoxSavePassword_CheckedChanged);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(26)))), ((int)(((byte)(26)))));
             this.ClientSize = new System.Drawing.Size(460, 452);
+            this.Controls.Add(this.checkBoxSavePassword);
+            this.Controls.Add(this.checkBoxSaveUsername);
             this.Controls.Add(this.linkLabel1);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.buttonTasks);
@@ -260,6 +286,8 @@
         private System.Windows.Forms.ToolTip toolTip6;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.LinkLabel linkLabel1;
+        private System.Windows.Forms.CheckBox checkBoxSaveUsername;
+        private System.Windows.Forms.CheckBox checkBoxSavePassword;
     }
 }
 

@@ -99,7 +99,7 @@
   <ItemGroup>
     <Compile Include="Building.cs" />
     <Compile Include="Room.cs" />
-    <Compile Include="JsonSettings.cs" />
+    <Compile Include="Setting.cs" />
     <Compile Include="Test.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Bot.cs" />
