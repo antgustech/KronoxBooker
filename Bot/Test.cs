@@ -3,9 +3,9 @@
     /// <summary>
     /// Just creates a new Bot, used for testing.
     /// </summary>
-    class Test
+    internal class Test
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             new Bot();
         }

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Bot
+﻿namespace Bot
 {
     /// <summary>
     /// The different timespans for different buildings and days.

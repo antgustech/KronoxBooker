@@ -1,8 +1,8 @@
-﻿using System;
+﻿using ScrapySharp.Extensions;
+using ScrapySharp.Network;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using ScrapySharp.Extensions;
-using ScrapySharp.Network;
 
 namespace Bot
 {
@@ -13,7 +13,7 @@ namespace Bot
     internal class Bot
     {
         private string _username, _password, _timeInterval, _bookingDate, _building;
-        private short _bookingTries;
+        private int _bookingTries;
         private DayOfWeek _dayOfWeek;
 
         /// <summary>
@@ -142,7 +142,7 @@ namespace Bot
         }
 
         /// <summary>
-        /// Parses the room name into the format that the booking url requires. 
+        /// Parses the room name into the format that the booking url requires.
         /// </summary>
         /// <param name="roomName">String representation of the name.</param>
         /// <returns>string represantation in url friendly format.</returns>

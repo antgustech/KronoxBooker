@@ -1,6 +1,5 @@
 ﻿using Microsoft.Win32.TaskScheduler;
 using System;
-using System.Diagnostics;
 using System.IO;
 
 namespace KronoxScraperBotGUI
@@ -14,8 +13,8 @@ namespace KronoxScraperBotGUI
         {
             var now = DateTime.Now;
             var midnightNextDay = new DateTime(now.Year, now.Month, now.Day, 0, 0, 0).AddDays(1);
-            var oneMinute = new TimeSpan(0, 00, 01, 0); 
-            var oneHour = new TimeSpan(0, 01, 00, 0); 
+            var oneMinute = new TimeSpan(0, 00, 01, 0);
+            var oneHour = new TimeSpan(0, 01, 00, 0);
 
             using (TaskService ts = new TaskService())
             {

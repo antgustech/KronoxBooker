@@ -96,7 +96,7 @@
             this.textBoxUsername.Name = "textBoxUsername";
             this.textBoxUsername.Size = new System.Drawing.Size(160, 24);
             this.textBoxUsername.TabIndex = 5;
-            this.toolTip1.SetToolTip(this.textBoxUsername, "You username for Kronox and it\'s learning, usually on the format AA1111");
+            this.toolTip1.SetToolTip(this.textBoxUsername, "You username for Kronox and it\'s learning, usually on the format AB1234");
             this.textBoxUsername.TextChanged += new System.EventHandler(this.textBoxUsername_TextChanged);
             // 
             // textBoxPassword
@@ -110,7 +110,7 @@
             this.textBoxPassword.Name = "textBoxPassword";
             this.textBoxPassword.Size = new System.Drawing.Size(160, 24);
             this.textBoxPassword.TabIndex = 6;
-            this.toolTip1.SetToolTip(this.textBoxPassword, "Your password.");
+            this.toolTip1.SetToolTip(this.textBoxPassword, "Your password for its learning/kronox.");
             this.textBoxPassword.TextChanged += new System.EventHandler(this.textBoxPassword_TextChanged);
             // 
             // label3

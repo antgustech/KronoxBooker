@@ -50,30 +50,35 @@ namespace KronoxScraperBotGUI
                 if (day == DayOfWeek.Saturday && day == DayOfWeek.Sunday)
                 {
                     listBoxTime.Items.AddRange(Timespans.NiagaraWeekend);
-                    listBoxTime.Text = "";
+                    listBoxTime.SelectedItem = Timespans.NiagaraWeekend[1];
                 }
                 else
                 {
                     listBoxTime.Items.AddRange(Timespans.NiagaraWeekDays);
+                    listBoxTime.SelectedItem = Timespans.NiagaraWeekDays[1];
                 }
             }
             else if (listBoxBuilding.SelectedItem.Equals("Orkanen"))
             {
                 listBoxTime.Items.AddRange(Timespans.OrkanenDays);
+                listBoxTime.SelectedItem = Timespans.OrkanenDays[1];
             }
             else if (listBoxBuilding.SelectedItem.Equals("Orkanenbiblioteket"))
             {
                 if (day == DayOfWeek.Friday)
                 {
                     listBoxTime.Items.AddRange(Timespans.OrkanenBibliotekFriday);
+                    listBoxTime.SelectedItem = Timespans.OrkanenBibliotekFriday[1];
                 }
                 else if (day == DayOfWeek.Saturday)
                 {
                     listBoxTime.Items.AddRange(Timespans.OrkanenBibliotekSaturday);
+                    listBoxTime.SelectedItem = Timespans.OrkanenBibliotekSaturday[1];
                 }
                 else if (day != DayOfWeek.Sunday)
                 {
                     listBoxTime.Items.AddRange(Timespans.OrkanenBibliotekWeekDays);
+                    listBoxTime.SelectedItem = Timespans.OrkanenBibliotekWeekDays[1];
                 }
             }
         }

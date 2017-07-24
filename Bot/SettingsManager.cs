@@ -14,6 +14,7 @@ namespace Bot
     public static class SettingsManager
     {
         private static string _path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Kronox Bot/files/file.");
+
         private static readonly byte[] _entropy = new byte[]
         {
             222,2,33,112,001
@@ -38,8 +39,8 @@ namespace Bot
         /// <returns></returns>
         public static bool WriteSettings(JsonSettings jsonSettings)
         {
-           var settings = File.Exists(_path) ? ReadSettings() : new List<JsonSettings>();
-           var exists =  settings.Where(s => s.TimeInterval == jsonSettings.TimeInterval && s.BuildingDesignation == jsonSettings.BuildingDesignation && s.Username == jsonSettings.Username);
+            var settings = File.Exists(_path) ? ReadSettings() : new List<JsonSettings>();
+            var exists = settings.Where(s => s.TimeInterval == jsonSettings.TimeInterval && s.BuildingDesignation == jsonSettings.BuildingDesignation && s.Username == jsonSettings.Username);
 
             if (exists.Count() > 0)
                 return false;
