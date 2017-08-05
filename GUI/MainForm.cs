@@ -44,7 +44,7 @@ namespace KronoxScraperBotGUI
         {
             try
             {
-                var user = HistoryManager.Read();
+                var user = HistoryManager.ReadUser();
                 if (user.Name != null)
                 {
                     checkBoxSaveUsername.Checked = true;
@@ -128,7 +128,7 @@ namespace KronoxScraperBotGUI
             var time = listBoxTime.SelectedItem.ToString();
             SetTimeDropDown();
             var shed = new TaskScheduler();
-            shed.AddTask();
+            shed.ScheduleTask();
             checkCheckBoxes();
             SaveSettings(username, password, int.Parse(building), time);
         }
@@ -137,19 +137,19 @@ namespace KronoxScraperBotGUI
         {
             if (checkBoxSaveUsername.Checked && checkBoxSavePassword.Checked)
             {
-                HistoryManager.WriteSettings(new User { Name = textBoxUsername.Text, Password = textBoxPassword.Text });
+                HistoryManager.WriteUser(new User { Name = textBoxUsername.Text, Password = textBoxPassword.Text });
             }
             else if (checkBoxSaveUsername.Checked && !checkBoxSavePassword.Checked)
             {
-                HistoryManager.WriteSettings(new User { Name = textBoxUsername.Text, Password = null });
+                HistoryManager.WriteUser(new User { Name = textBoxUsername.Text, Password = null });
             }
             else if (!checkBoxSaveUsername.Checked && checkBoxSavePassword.Checked)
             {
-                HistoryManager.WriteSettings(new User { Name = null, Password = textBoxPassword.Text });
+                HistoryManager.WriteUser(new User { Name = null, Password = textBoxPassword.Text });
             }
             else
             {
-                HistoryManager.Delete();
+                HistoryManager.DeleteUser();
             }
         }
 
@@ -182,7 +182,7 @@ namespace KronoxScraperBotGUI
                 TimeInterval = time,
                 DayOfWeek = date.DayOfWeek
             };
-            var exists = SettingsManager.WriteSettings(settings);
+            var exists = SettingsManager.WriteSetting(settings);
 
             if (!exists)
             {

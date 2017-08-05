@@ -6,6 +6,9 @@ using System.Text;
 
 namespace KronoxScraperBotGUI
 {
+    /// <summary>
+    /// Manages saving and reading stored username and password.
+    /// </summary>
     internal class HistoryManager
     {
         private static string _path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Kronox Bot/files/up.");
@@ -19,7 +22,7 @@ namespace KronoxScraperBotGUI
         /// Reads User from file.
         /// </summary>
         /// <returns></returns>
-        public static User Read()
+        public static User ReadUser()
         {
             var fileEncrypted = File.ReadAllBytes(_path);
             var fileDecrypted = ProtectedData.Unprotect(fileEncrypted, _entropy, DataProtectionScope.CurrentUser);
@@ -32,9 +35,9 @@ namespace KronoxScraperBotGUI
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
-        public static void WriteSettings(User user)
+        public static void WriteUser(User user)
         {
-            Delete();
+            DeleteUser();
 
             var json = JsonConvert.SerializeObject(user);
             byte[] fileEncrypted = ProtectedData.Protect(Encoding.UTF8.GetBytes(json), _entropy,
@@ -48,7 +51,7 @@ namespace KronoxScraperBotGUI
         /// </summary>
         /// <param name="jsonSettings"></param>
         /// <returns></returns>
-        public static void Delete()
+        public static void DeleteUser()
         {
             File.Delete(_path);
         }

@@ -29,37 +29,37 @@ namespace Bot
             var fileEncrypted = File.ReadAllBytes(_path);
             var fileDecrypted = ProtectedData.Unprotect(fileEncrypted, _entropy, DataProtectionScope.CurrentUser);
             var fileAsString = Encoding.Default.GetString(fileDecrypted);
-            return JsonConvert.DeserializeObject<Setting[]>(fileAsString).ToList<Setting>();
+            return JsonConvert.DeserializeObject<Setting[]>(fileAsString).ToList();
         }
 
         /// <summary>
         /// Adds a new settings entry to json file.
         /// </summary>
-        /// <param name="jsonSettings"></param>
+        /// <param name="setting"></param>
         /// <returns></returns>
-        public static bool WriteSettings(Setting jsonSettings)
+        public static bool WriteSetting(Setting setting)
         {
-            var settings = File.Exists(_path) ? ReadSettings() : new List<Setting>();
-            var exists = settings.Where(s => s.TimeInterval == jsonSettings.TimeInterval && s.BuildingDesignation == jsonSettings.BuildingDesignation && s.Username == jsonSettings.Username);
+            var settingsList = File.Exists(_path) ? ReadSettings() : new List<Setting>();
+            var matchingSetting = settingsList.Where(s => s.TimeInterval == setting.TimeInterval && s.BuildingDesignation == setting.BuildingDesignation && s.Username == setting.Username);
 
-            if (exists.Count() > 0)
+            if (matchingSetting.Count() > 0)
                 return false;
 
-            settings.Add(jsonSettings);
-            UpdateSettings(settings);
+            settingsList.Add(setting);
+            UpdateSettings(settingsList);
             return true;
         }
 
         /// <summary>
         /// Updates the settings file with a new list of settings.
         /// </summary>
-        /// <param name="jsonSettings"></param>
+        /// <param name="settingsList"></param>
         /// <returns></returns>
-        public static void UpdateSettings(List<Setting> jsonSettings)
+        public static void UpdateSettings(List<Setting> settingsList)
         {
             DeleteSettings();
 
-            var json = JsonConvert.SerializeObject(jsonSettings);
+            var json = JsonConvert.SerializeObject(settingsList);
             byte[] fileEncrypted = ProtectedData.Protect(Encoding.UTF8.GetBytes(json), _entropy,
                DataProtectionScope.CurrentUser);
 

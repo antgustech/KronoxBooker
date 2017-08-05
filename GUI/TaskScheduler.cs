@@ -9,7 +9,7 @@ namespace KronoxScraperBotGUI
         /// <summary>
         /// Adds a new task or updates existing.
         /// </summary>
-        internal void AddTask()
+        internal void ScheduleTask()
         {
             var now = DateTime.Now;
             var midnightNextDay = new DateTime(now.Year, now.Month, now.Day, 0, 0, 0).AddDays(1);

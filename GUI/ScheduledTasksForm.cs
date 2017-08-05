@@ -46,26 +46,23 @@ namespace KronoxScraperBotGUI
             try
             {
                 settings = SettingsManager.ReadSettings();
-
             }
             catch (IOException)
             {
                 return;
             }
-                foreach (Setting setting in settings)
-                {
-                    string[] row = ToStringArray(setting);
-                    var item = new ListViewItem(row);
-                    listViewTasks.Items.Add(item);
-                }
-            
-            
-            if(listViewTasks.Items.Count < 1)
+            foreach (Setting setting in settings)
+            {
+                string[] row = ToStringArray(setting);
+                var item = new ListViewItem(row);
+                listViewTasks.Items.Add(item);
+            }
+
+            if (listViewTasks.Items.Count < 1)
             {
                 TaskScheduler.RemoveTask();
                 SettingsManager.DeleteSettings();
             }
-            
         }
 
         /// <summary>
@@ -92,7 +89,6 @@ namespace KronoxScraperBotGUI
             }
             return new string[] { setting.Username, buildingName, setting.TimeInterval, setting.DayOfWeek.ToString() };
         }
-
 
         private void ControlTaskButton()
         {

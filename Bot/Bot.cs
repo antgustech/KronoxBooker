@@ -21,42 +21,21 @@ namespace Bot
         /// </summary>
         public Bot()
         {
-            Console.Write("Tries to book a room...");
-
+            Console.WriteLine("Kronox Bot started.");
             foreach (var setting in SettingsManager.ReadSettings())
             {
-                Setup(setting);
-                Start();
+                Console.WriteLine("Tries to book a room...");
+                ReadSetting(setting);
+                TryToBookRoom();
             }
             SettingsManager.DeleteSettings();
-        }
-
-        /// <summary>
-        /// Main driver of the different stages in the booking process.
-        /// </summary>
-        private void Start()
-        {
-            _bookingTries = 0;
-            var browser = Login();
-            if (browser != null)
-            {
-                var booked = false;
-                while (!booked && _bookingTries < 5)
-                {
-                    var rooms = GetAvailableRooms(browser);
-                    if (rooms == null)
-                        continue;
-                    booked = Book(browser, rooms);
-                    _bookingTries++;
-                }
-            }
         }
 
         /// <summary>
         /// Retrieves values from JsonSettings and sets them for variables in this class.
         /// </summary>
         /// <param name="settings">A JsonSetting object that contain settings set by the user.</param>
-        private void Setup(Setting settings)
+        private void ReadSetting(Setting settings)
         {
             _username = settings.Username;
             _password = settings.Password;
@@ -67,14 +46,33 @@ namespace Bot
         }
 
         /// <summary>
+        /// Main driver of the different stages in the booking process.
+        /// </summary>
+        private void TryToBookRoom()
+        {
+            _bookingTries = 0;
+            var browser = LoginToPage();
+            if (browser != null)
+            {
+                var booked = false;
+                while (!booked && _bookingTries < 5)
+                {
+                    var rooms = GetAvailableRooms(browser);
+                    if (rooms == null)
+                        continue;
+                    booked = BookAvailableRooms(browser, rooms);
+                    _bookingTries++;
+                }
+            }
+        }
+
+        /// <summary>
         /// Creates a browser and logs in to the booking page on Kronox.
         /// </summary>
         /// <returns>A browser that has logged in. If login was unsuccessfull, return null</returns>
-        private ScrapingBrowser Login()
+        private ScrapingBrowser LoginToPage()
         {
-            var browser = new ScrapingBrowser();
-            browser.AllowAutoRedirect = true;
-            browser.AllowMetaRedirect = true;
+            var browser = new ScrapingBrowser() {AllowAutoRedirect = true, AllowMetaRedirect = true};
             var page = browser.NavigateToPage(new Uri("https://schema.mah.se/"));
             var form = page.FindFormById("loginform");
             form["username"] = _username;
@@ -94,18 +92,18 @@ namespace Bot
         /// <param name="browser">A browser object that is at the booking page.</param>
         private List<Room> GetAvailableRooms(ScrapingBrowser browser)
         {
-            var AvailRoomPage = browser.NavigateToPage(new Uri($"https://schema.mah.se/ajax/ajax_resursbokning.jsp?op=hamtaBokningar&datum={_bookingDate}&flik=FLIK{_building}"));
-            var nodes = AvailRoomPage.Html.SelectNodes("//td[@class='grupprum-ledig grupprum-kolumn']/a");
+            var AvailableRoomPage = browser.NavigateToPage(new Uri($"https://schema.mah.se/ajax/ajax_resursbokning.jsp?op=hamtaBokningar&datum={_bookingDate}&flik=FLIK{_building}"));
+            var nodes = AvailableRoomPage.Html.SelectNodes("//td[@class='grupprum-ledig grupprum-kolumn']/a");
             if (nodes == null)
                 return null;
 
             var rooms = new List<Room>();
             foreach (var node in nodes)
             {
-                string[] split = (node.GetAttributeValue("onclick").Split('\''));
-                var roomName = (split[1]);
-                var timeSpan = (split[7]);
-                var parsedName = ParsedRoomName(roomName);
+                string[] nodeStringSplit = (node.GetAttributeValue("onclick").Split('\''));
+                var roomName = (nodeStringSplit[1]);
+                var timeSpan = (nodeStringSplit[7]);
+                var parsedName = RoomNameToURL(roomName);
                 var room = new Room(roomName, timeSpan);
                 rooms.Add(room);
             }
@@ -116,7 +114,7 @@ namespace Bot
         /// Tries to book the room specified by the user. Tries booking in all three building if booking was unsuccessful and user wanted it.
         /// </summary>
         /// <param name="browser">A browser object that is at the booking page.</param>
-        private bool Book(ScrapingBrowser browser, List<Room> rooms)
+        private bool BookAvailableRooms(ScrapingBrowser browser, List<Room> rooms)
         {
             var roomsWithinTime = rooms.Where(room => room.Time == _timeInterval).ToList();
             var message = "";
@@ -124,7 +122,7 @@ namespace Bot
             foreach (var room in roomsWithinTime)
             {
                 var roomName = room.Name;
-                var parsedTimeSpan = ParseTimeSpan(room.Time);
+                var parsedTimeSpan = TimeSpanToInt(room.Time);
                 var bookingPage = browser.NavigateToPage(new Uri($"https://schema.mah.se/ajax/ajax_resursbokning.jsp?op=boka&datum={_bookingDate}&id={roomName}&typ=RESURSER_LOKALER&intervall={parsedTimeSpan}&moment=Bokad&flik=FLIK{_building}"));
 
                 message = (bookingPage.Html.InnerText.ToLower());
@@ -146,7 +144,7 @@ namespace Bot
         /// </summary>
         /// <param name="roomName">String representation of the name.</param>
         /// <returns>string represantation in url friendly format.</returns>
-        private string ParsedRoomName(string roomName)
+        private string RoomNameToURL(string roomName)
         {
             roomName = roomName.Replace(':', '%');
             roomName = roomName.Insert(3, "3A");
@@ -158,7 +156,7 @@ namespace Bot
         /// </summary>
         /// <param name="timeSpan">The timespan for a room as a string.</param>
         /// <returns>The interval for that timespan.</returns>
-        private int ParseTimeSpan(string timeSpan)
+        private int TimeSpanToInt(string timeSpan)
         {
             var index = 0;
             string[] arr = new string[0];
@@ -195,8 +193,7 @@ namespace Bot
                     arr = Timespans.OrkanenBibliotekWeekDays;
                 }
             }
-            index += Array.IndexOf(arr, timeSpan);
-            return index;
+            return index += Array.IndexOf(arr, timeSpan);
         }
     }
 }
