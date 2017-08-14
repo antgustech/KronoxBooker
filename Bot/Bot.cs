@@ -17,9 +17,9 @@ namespace Bot
         private DayOfWeek _dayOfWeek;
 
         /// <summary>
-        /// Constructor that starts the bot. Loops through each settings and tries to book the room for each setting.
+        /// Starts the bot. Loops through each settings and tries to book the room for each setting.
         /// </summary>
-        public Bot()
+        public void Run()
         {
             Console.WriteLine("Kronox Bot started.");
             foreach (var setting in SettingsManager.ReadSettings())

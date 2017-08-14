@@ -1,13 +1,13 @@
 ﻿namespace Bot
 {
     /// <summary>
-    /// Just creates a new Bot, used for testing.
+    /// Creates a new Bot instance and calls it's run method to start.
     /// </summary>
-    internal class Test
+    internal class Start
     {
         private static void Main(string[] args)
         {
-            new Bot();
+            new Bot().Run();
         }
     }
 }

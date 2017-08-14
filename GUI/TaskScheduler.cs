@@ -45,7 +45,10 @@ namespace KronoxScraperBotGUI
                 {
                     ts.RootFolder.DeleteTask("StartKronoxBotBooker");
                 }
-                catch (IOException) { }
+                catch (IOException)
+                {
+                    // If the task doesn't exist we assume it's already deleted. 
+                }
             }
         }
     }
