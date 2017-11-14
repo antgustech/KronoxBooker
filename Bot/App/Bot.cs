@@ -16,9 +16,7 @@ namespace Bot
         private string username, password, timeInterval, bookingDate, building;
         private int bookingTries;
         private DayOfWeek dayOfWeek;
-        public const string Niagara = "-0017";
-        public const string Orkanen = "_0000";
-        public const string OrkanenBiblioteket = "_0004";
+
 
         /// <summary>
         /// Starts the bot. Loops through each settings and tries to book the room for each setting.
@@ -66,7 +64,7 @@ namespace Bot
                     if (rooms == null)
                         continue;
                     booked = BookAvailableRooms(browser, rooms);
-          
+
                 }
             }
         }
@@ -166,7 +164,7 @@ namespace Bot
             var index = 0;
             string[] arr = new string[0];
 
-            if (building == Niagara)
+            if (building == Building.Niagara)
             {
                 if (dayOfWeek == DayOfWeek.Saturday && dayOfWeek == DayOfWeek.Sunday)
                 {
@@ -177,11 +175,11 @@ namespace Bot
                     arr = Timespans.NiagaraWeekDays;
                 }
             }
-            else if (building == Orkanen)
+            else if (building == Building.Orkanen)
             {
                 arr = Timespans.OrkanenDays;
             }
-            else if (building == OrkanenBiblioteket)
+            else if (building == Building.OrkanenBiblioteket)
             {
                 if (dayOfWeek == DayOfWeek.Friday)
                 {
@@ -197,6 +195,10 @@ namespace Bot
                 {
                     arr = Timespans.OrkanenBibliotekWeekDays;
                 }
+            }
+            else if (building == Building.Gäddan)
+            {
+                arr = Timespans.GäddanWeekDays;
             }
             return index += Array.IndexOf(arr, timeSpan);
         }
