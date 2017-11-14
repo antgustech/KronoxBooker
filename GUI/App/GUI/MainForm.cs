@@ -101,6 +101,11 @@ namespace KronoxScraperBotGUI
                     listBoxTime.SelectedItem = Timespans.OrkanenBibliotekWeekDays[1];
                 }
             }
+            else if (listBoxBuilding.SelectedItem.Equals(Building.BuildingNames[3]))
+            {
+                listBoxTime.Items.AddRange(Timespans.GäddanWeekDays);
+                listBoxTime.SelectedItem = Timespans.GäddanWeekDays[1];
+            }
         }
 
         /// <summary>
@@ -166,6 +171,10 @@ namespace KronoxScraperBotGUI
 
                 case 2:
                     buildingDesignation = Building.OrkanenBiblioteket;
+                    break;
+
+                case 3:
+                    buildingDesignation = Building.Gäddan;
                     break;
             }
 

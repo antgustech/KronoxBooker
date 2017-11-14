@@ -62,10 +62,11 @@ namespace Bot
                 while (!booked && bookingTries < 5)
                 {
                     var rooms = GetAvailableRooms(browser);
+                    bookingTries++;
                     if (rooms == null)
                         continue;
                     booked = BookAvailableRooms(browser, rooms);
-                    bookingTries++;
+          
                 }
             }
         }

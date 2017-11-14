@@ -5,6 +5,7 @@
     /// </summary>
     public static class Timespans
     {
+        #region Niagara
         public static readonly string[] NiagaraWeekDays = new string[]{
         "08:15-10:00",
         "10:15-13:00",
@@ -19,7 +20,9 @@
         "15:15-17:00",
         "17:15-20:00"
         };
+        #endregion
 
+        #region Orkanen
         public static readonly string[] OrkanenDays = new string[]{
         "08:15-10:00",
         "10:15-13:00",
@@ -27,7 +30,9 @@
         "15:15-17:00",
         "17:15-20:00"
         };
+        #endregion
 
+        #region OrkanenBiblioteket
         public static readonly string[] OrkanenBibliotekWeekDays = new string[]{
         "08:00-10:00",
         "10:00-12:00",
@@ -50,5 +55,16 @@
         "14:00-16:00",
         "11:00-12:00"
         };
+        #endregion
+
+        #region Gäddan
+        public static readonly string[] GäddanWeekDays = new string[]{
+        "08:15-10:00",
+        "10:15-13:00",
+        "13:15-15:00",
+        "15:15-17:00",
+        "17:15-20:00"
+        };
+        #endregion
     }
 }
