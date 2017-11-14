@@ -19,20 +19,15 @@ namespace KronoxScraperBotGUI
         /// <summary>
         /// Intializes listbox with the buildings and some other smaller forms.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void Form1_Load(object sender, EventArgs e)
         {
-            listBoxBuilding.Items.Add("Niagara");
-            listBoxBuilding.Text = "Niagara";
+            foreach (var name in Building.BuildingNames)
+            {
+                listBoxBuilding.Items.Add(name);
+                listBoxBuilding.Text = name;
+            }
 
-            listBoxBuilding.Items.Add("Orkanen");
-            listBoxBuilding.Text = "Orkanen";
-
-            listBoxBuilding.Items.Add("Orkanenbiblioteket");
-            listBoxBuilding.Text = "Orkanenbiblioteket";
-
-            listBoxBuilding.SelectedItem = "Niagara";
+            listBoxBuilding.SelectedItem = Building.BuildingNames[0];
 
             textBoxPassword.PasswordChar = '*';
             buttonSetTask.Enabled = false;
@@ -56,9 +51,7 @@ namespace KronoxScraperBotGUI
                     textBoxPassword.Text = user.Password;
                 }
             }
-#pragma warning disable CS0168 // Variable is declared but never used
             catch (IOException e)
-#pragma warning restore CS0168 // Variable is declared but never used
             {
                 //Do nothing.
             }
@@ -72,7 +65,7 @@ namespace KronoxScraperBotGUI
             listBoxTime.Items.Clear();
             var day = date.DayOfWeek;
 
-            if (listBoxBuilding.SelectedItem.Equals("Niagara"))
+            if (listBoxBuilding.SelectedItem.Equals(Building.BuildingNames[0]))
             {
                 if (day == DayOfWeek.Saturday && day == DayOfWeek.Sunday)
                 {
@@ -85,12 +78,12 @@ namespace KronoxScraperBotGUI
                     listBoxTime.SelectedItem = Timespans.NiagaraWeekDays[1];
                 }
             }
-            else if (listBoxBuilding.SelectedItem.Equals("Orkanen"))
+            else if (listBoxBuilding.SelectedItem.Equals(Building.BuildingNames[1]))
             {
                 listBoxTime.Items.AddRange(Timespans.OrkanenDays);
                 listBoxTime.SelectedItem = Timespans.OrkanenDays[1];
             }
-            else if (listBoxBuilding.SelectedItem.Equals("Orkanenbiblioteket"))
+            else if (listBoxBuilding.SelectedItem.Equals(Building.BuildingNames[2]))
             {
                 if (day == DayOfWeek.Friday)
                 {
@@ -160,7 +153,7 @@ namespace KronoxScraperBotGUI
         /// </summary>
         private void SaveSettings(string username, string password, int building, string time)
         {
-            var buildingDesignation = "";
+            string buildingDesignation ="";
             switch (building)
             {
                 case 0:
@@ -230,24 +223,6 @@ namespace KronoxScraperBotGUI
         private void ControlTaskButton()
         {
             buttonSetTask.Enabled = !string.IsNullOrEmpty(textBoxUsername.Text) && !string.IsNullOrEmpty(textBoxPassword.Text) && listBoxTime.Items.Count > 0 && !string.IsNullOrEmpty(listBoxTime.Text);
-        }
-
-        /// <summary>
-        /// Save or remove username.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void checkBoxSaveUsername_CheckedChanged(object sender, EventArgs e)
-        {
-        }
-
-        /// <summary>
-        /// Save or remove password.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void checkBoxSavePassword_CheckedChanged(object sender, EventArgs e)
-        {
         }
     }
 }

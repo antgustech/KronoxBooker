@@ -217,7 +217,6 @@
             this.toolTip1.SetToolTip(this.checkBoxSaveUsername, "Check to let the application remember your credentias. \r\nThis setting is only exe" +
         "cuted when the Schedule task button is pressed.");
             this.checkBoxSaveUsername.UseVisualStyleBackColor = true;
-            this.checkBoxSaveUsername.CheckedChanged += new System.EventHandler(this.checkBoxSaveUsername_CheckedChanged);
             // 
             // checkBoxSavePassword
             // 
@@ -230,7 +229,6 @@
             this.toolTip1.SetToolTip(this.checkBoxSavePassword, "Check to let the application remember your credentias. \r\nThis setting is only exe" +
         "cuted when the Schedule task button is pressed. ");
             this.checkBoxSavePassword.UseVisualStyleBackColor = true;
-            this.checkBoxSavePassword.CheckedChanged += new System.EventHandler(this.checkBoxSavePassword_CheckedChanged);
             // 
             // MainForm
             // 

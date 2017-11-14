@@ -16,9 +16,9 @@ namespace Bot
         private string username, password, timeInterval, bookingDate, building;
         private int bookingTries;
         private DayOfWeek dayOfWeek;
-        public readonly string Niagara = "-0017";
-        public readonly string Orkanen = "_0000";
-        public readonly string OrkanenBiblioteket = "_0004";
+        public const string Niagara = "-0017";
+        public const string Orkanen = "_0000";
+        public const string OrkanenBiblioteket = "_0004";
 
         /// <summary>
         /// Starts the bot. Loops through each settings and tries to book the room for each setting.
