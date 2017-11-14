@@ -1,5 +1,6 @@
 ﻿using ScrapySharp.Extensions;
 using ScrapySharp.Network;
+using Shared;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,9 +13,12 @@ namespace Bot
     /// </summary>
     internal class Bot
     {
-        private string _username, _password, _timeInterval, _bookingDate, _building;
-        private int _bookingTries;
-        private DayOfWeek _dayOfWeek;
+        private string username, password, timeInterval, bookingDate, building;
+        private int bookingTries;
+        private DayOfWeek dayOfWeek;
+        public readonly string Niagara = "-0017";
+        public readonly string Orkanen = "_0000";
+        public readonly string OrkanenBiblioteket = "_0004";
 
         /// <summary>
         /// Starts the bot. Loops through each settings and tries to book the room for each setting.
@@ -37,12 +41,12 @@ namespace Bot
         /// <param name="settings">A JsonSetting object that contain settings set by the user.</param>
         private void ReadSetting(Setting settings)
         {
-            _username = settings.Username;
-            _password = settings.Password;
-            _building = settings.BuildingDesignation;
-            _timeInterval = settings.TimeInterval;
-            _dayOfWeek = settings.DayOfWeek;
-            _bookingDate = DateTime.Today.ToString("yy-MM-dd");
+            username = settings.Username;
+            password = settings.Password;
+            building = settings.BuildingDesignation;
+            timeInterval = settings.TimeInterval;
+            dayOfWeek = settings.DayOfWeek;
+            bookingDate = DateTime.Today.ToString("yy-MM-dd");
         }
 
         /// <summary>
@@ -50,18 +54,18 @@ namespace Bot
         /// </summary>
         private void TryToBookRoom()
         {
-            _bookingTries = 0;
+            bookingTries = 0;
             var browser = LoginToPage();
             if (browser != null)
             {
                 var booked = false;
-                while (!booked && _bookingTries < 5)
+                while (!booked && bookingTries < 5)
                 {
                     var rooms = GetAvailableRooms(browser);
                     if (rooms == null)
                         continue;
                     booked = BookAvailableRooms(browser, rooms);
-                    _bookingTries++;
+                    bookingTries++;
                 }
             }
         }
@@ -72,11 +76,11 @@ namespace Bot
         /// <returns>A browser that has logged in. If login was unsuccessfull, return null</returns>
         private ScrapingBrowser LoginToPage()
         {
-            var browser = new ScrapingBrowser() {AllowAutoRedirect = true, AllowMetaRedirect = true};
+            var browser = new ScrapingBrowser() { AllowAutoRedirect = true, AllowMetaRedirect = true };
             var page = browser.NavigateToPage(new Uri("https://schema.mah.se/"));
             var form = page.FindFormById("loginform");
-            form["username"] = _username;
-            form["password"] = _password;
+            form["username"] = username;
+            form["password"] = password;
             form.Method = HttpVerb.Post;
             var resultsPage = form.Submit();
 
@@ -92,7 +96,7 @@ namespace Bot
         /// <param name="browser">A browser object that is at the booking page.</param>
         private List<Room> GetAvailableRooms(ScrapingBrowser browser)
         {
-            var AvailableRoomPage = browser.NavigateToPage(new Uri($"https://schema.mah.se/ajax/ajax_resursbokning.jsp?op=hamtaBokningar&datum={_bookingDate}&flik=FLIK{_building}"));
+            var AvailableRoomPage = browser.NavigateToPage(new Uri($"https://schema.mah.se/ajax/ajax_resursbokning.jsp?op=hamtaBokningar&datum={bookingDate}&flik=FLIK{building}"));
             var nodes = AvailableRoomPage.Html.SelectNodes("//td[@class='grupprum-ledig grupprum-kolumn']/a");
             if (nodes == null)
                 return null;
@@ -116,14 +120,14 @@ namespace Bot
         /// <param name="browser">A browser object that is at the booking page.</param>
         private bool BookAvailableRooms(ScrapingBrowser browser, List<Room> rooms)
         {
-            var roomsWithinTime = rooms.Where(room => room.Time == _timeInterval).ToList();
+            var roomsWithinTime = rooms.Where(room => room.Time == timeInterval).ToList();
             var message = "";
 
             foreach (var room in roomsWithinTime)
             {
                 var roomName = room.Name;
                 var parsedTimeSpan = TimeSpanToInt(room.Time);
-                var bookingPage = browser.NavigateToPage(new Uri($"https://schema.mah.se/ajax/ajax_resursbokning.jsp?op=boka&datum={_bookingDate}&id={roomName}&typ=RESURSER_LOKALER&intervall={parsedTimeSpan}&moment=Bokad&flik=FLIK{_building}"));
+                var bookingPage = browser.NavigateToPage(new Uri($"https://schema.mah.se/ajax/ajax_resursbokning.jsp?op=boka&datum={bookingDate}&id={roomName}&typ=RESURSER_LOKALER&intervall={parsedTimeSpan}&moment=Bokad&flik=FLIK{building}"));
 
                 message = (bookingPage.Html.InnerText.ToLower());
                 if (message == "ok")
@@ -132,7 +136,7 @@ namespace Bot
                 }
                 else if (message.Contains("bokningen gick inte att spara pga kollision") || message.Contains("en tid som redan har intr") || message.Contains("du har redan skapat max antal bokningar"))
                 {
-                    _bookingTries = 5;
+                    bookingTries = 5;
                     return false;
                 }
             }
@@ -161,9 +165,9 @@ namespace Bot
             var index = 0;
             string[] arr = new string[0];
 
-            if (_building == Building.Niagara)
+            if (building == Niagara)
             {
-                if (_dayOfWeek == DayOfWeek.Saturday && _dayOfWeek == DayOfWeek.Sunday)
+                if (dayOfWeek == DayOfWeek.Saturday && dayOfWeek == DayOfWeek.Sunday)
                 {
                     arr = Timespans.NiagaraWeekend;
                 }
@@ -172,23 +176,23 @@ namespace Bot
                     arr = Timespans.NiagaraWeekDays;
                 }
             }
-            else if (_building == Building.Orkanen)
+            else if (building == Orkanen)
             {
                 arr = Timespans.OrkanenDays;
             }
-            else if (_building == Building.OrkanenBiblioteket)
+            else if (building == OrkanenBiblioteket)
             {
-                if (_dayOfWeek == DayOfWeek.Friday)
+                if (dayOfWeek == DayOfWeek.Friday)
                 {
                     index = 3;
                     arr = Timespans.OrkanenBibliotekFriday;
                 }
-                else if (_dayOfWeek == DayOfWeek.Saturday)
+                else if (dayOfWeek == DayOfWeek.Saturday)
                 {
                     index = 2;
                     arr = Timespans.OrkanenBibliotekSaturday;
                 }
-                else if (_dayOfWeek != DayOfWeek.Sunday)
+                else if (dayOfWeek != DayOfWeek.Sunday)
                 {
                     arr = Timespans.OrkanenBibliotekWeekDays;
                 }

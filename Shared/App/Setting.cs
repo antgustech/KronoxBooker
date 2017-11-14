@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Bot
+namespace Shared
 {
     /// <summary>
     /// Settings for the bot. Each setting is stored in a json file that is later

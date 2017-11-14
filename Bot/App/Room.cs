@@ -2,7 +2,6 @@
 {
     /// <summary>
     /// Represents a free room. Stores the time that the booking starts from and the name of the room.
-    /// Converts name and time to proper formats.
     /// </summary>
     public class Room
     {

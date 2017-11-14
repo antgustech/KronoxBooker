@@ -60,7 +60,8 @@
     <SignManifests>true</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>icon.ico</ApplicationIcon>
+    <ApplicationIcon>
+    </ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="JetBrains.Annotations, Version=10.4.0.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
@@ -86,24 +87,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="HistoryManager.cs" />
-    <Compile Include="ScheduledTasksForm.cs">
+    <Compile Include="App\Logic\HistoryManager.cs" />
+    <Compile Include="App\GUI\ScheduledTasksForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ScheduledTasksForm.Designer.cs">
+    <Compile Include="App\GUI\ScheduledTasksForm.Designer.cs">
       <DependentUpon>ScheduledTasksForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MainForm.cs">
+    <Compile Include="App\GUI\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MainForm.Designer.cs">
+    <Compile Include="App\GUI\MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Start.cs" />
+    <Compile Include="App\GUI\Start.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TaskScheduler.cs" />
-    <Compile Include="User.cs" />
-    <EmbeddedResource Include="MainForm.resx">
+    <Compile Include="App\Logic\TaskScheduler.cs" />
+    <Compile Include="App\Logic\User.cs" />
+    <EmbeddedResource Include="App\GUI\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -115,7 +116,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="ScheduledTasksForm.resx">
+    <EmbeddedResource Include="App\GUI\ScheduledTasksForm.resx">
       <DependentUpon>ScheduledTasksForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
@@ -145,13 +146,10 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Bot\Bot.csproj">
-      <Project>{8f817532-4cd3-41c6-a23d-6eb5e31a691d}</Project>
-      <Name>Bot</Name>
+    <ProjectReference Include="..\Shared\Shared.csproj">
+      <Project>{d439c889-2d27-4382-8517-c69e5db51fad}</Project>
+      <Name>Shared</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="icon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,4 +1,4 @@
-﻿using Bot;
+﻿using Shared;
 using System;
 using System.IO;
 using System.Windows.Forms;
@@ -56,7 +56,9 @@ namespace KronoxScraperBotGUI
                     textBoxPassword.Text = user.Password;
                 }
             }
+#pragma warning disable CS0168 // Variable is declared but never used
             catch (IOException e)
+#pragma warning restore CS0168 // Variable is declared but never used
             {
                 //Do nothing.
             }

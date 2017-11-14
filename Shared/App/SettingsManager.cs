@@ -6,7 +6,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace Bot
+namespace Shared
 {
     /// <summary>
     /// Class that reads settings from an encrypted file, builds settings objects and returns them as a list.

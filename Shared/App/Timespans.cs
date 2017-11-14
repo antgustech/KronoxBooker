@@ -1,4 +1,4 @@
-﻿namespace Bot
+﻿namespace Shared
 {
     /// <summary>
     /// The different timespans for different buildings and days.

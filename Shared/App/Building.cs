@@ -1,4 +1,4 @@
-﻿namespace Bot
+﻿namespace Shared
 {
     /// <summary>
     /// Constants that correlate between the building names and their URL formats.
